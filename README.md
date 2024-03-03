@@ -1,11 +1,11 @@
 # e-commerce-project
+Wybrany temat: Platforma e-commerce w C# i React
 
 Wymagania
 
 Zaprojektuj system informatyczny w wybranych technologiach. 
-Wybrany temat: Platforma e-commerce w C# i React
-Kompletny projekt powinien zawierać implementację oraz dokumentację (dokument pdf):
 
+Kompletny projekt powinien zawierać implementację oraz dokumentację (dokument pdf):
 Dokumentacja powinna zawierać:
 •	Wymagania funkcjonalne i niefunkcjonalne – 1 pkt.
 •	Diagramy klas – 1 pkt.
