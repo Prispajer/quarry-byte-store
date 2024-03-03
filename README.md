@@ -7,14 +7,17 @@ Zaprojektuj system informatyczny w wybranych technologiach.
 
 Kompletny projekt powinien zawierać implementację oraz dokumentację (dokument pdf):
 Dokumentacja powinna zawierać:
-•	Wymagania funkcjonalne i niefunkcjonalne – 1 pkt.
-•	Diagramy klas – 1 pkt.
-•	Opis sposobów i metod testowania – 1 pkt.
+1. Wymagania funkcjonalne i niefunkcjonalne – 1 pkt.
+2. Diagramy klas – 1 pkt.
+3. Opis sposobów i metod testowania – 1 pkt.
 
 Implementacja powinna obejmować:
-•	Warstwa Logiki biznesowej (ocena 3 - element wymagany) – 5 pkt.
-•	Warstwa prezentacji – 5 pkt.
-•	Baza danych – 4 pkt.
+
+4. Warstwa Logiki biznesowej (ocena 3 - element wymagany) – 5 pkt.
+
+5. Warstwa prezentacji – 5 pkt.
+
+6. Baza danych – 4 pkt.
 
 Punkty ujemne:
 1.	Brak określonych, lub błędne wymagania funkcjonalne i niefunkcjonalne: – 0,25 pkt.
@@ -23,10 +26,17 @@ Punkty ujemne:
 4.	Brak dokumentacji technicznej kodu: od - 0,25 pkt. do – 1 pkt.
 
 Ocena końcowa:
+
 2    	– < 9 pkt.
+
 3    	– 9-10 pkt.
+
 3,5 	– 11-12 pkt.
+
 4 	– 13-14 pkt.
+
 4,5 	– 15-16 pkt.
+
 5 	– 17 pkt.
+
 6 	– 17 pkt. + wykorzystanie docker compos
