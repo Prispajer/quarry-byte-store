@@ -11,7 +11,8 @@ Głównym celem robienia projektów IT w grupach jest umożliwienie studentom IT
  
 Rozmiar zespołu: < 3, 5> osób (dopuszczam również zespoły 6 osobowe),Temat: dowolny, każdy pomysł jest dobry!
 
-# Zaliczenie: Pod koniec zajęć przedstawienie repozytorium, w którym będzie znajdował się projekt, wraz z dokumentacją. 
+# Zaliczenie: 
+Pod koniec zajęć przedstawienie repozytorium, w którym będzie znajdował się projekt, wraz z dokumentacją. 
 
 # Punkty:
 10 pkt. - Projekt w repozytorium. W nazwie repozytorium proszę podać numery indeksu członków zespołu oddzielone podkreśleniem np. 12341_5342_12343
