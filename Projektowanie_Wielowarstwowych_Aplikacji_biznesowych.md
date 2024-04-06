@@ -42,3 +42,5 @@ Dokumentacja powinna zawierać:
 5 	– 17 pkt.
 
 6 	– 17 pkt. + wykorzystanie docker compos
+
+# DEADLINE: 01.06.2024
