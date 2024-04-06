@@ -1,7 +1,13 @@
 # e-commerce-project
+# GOŁACKA Anna, 51412 
+# KOZIEŁ Adrian, 55242
+# NIŚCIOR Inga, 51418
+# SZYMAŃSKI Emil, 51424
+# WIERZBICKI Piotr, 
+
 Wybrany temat: Platforma e-commerce w C# i React
 
-Wymagania
+# Wymagania
 
 Zaprojektuj system informatyczny w wybranych technologiach. 
 
@@ -11,22 +17,18 @@ Dokumentacja powinna zawierać:
 2. Diagramy klas – 1 pkt.
 3. Opis sposobów i metod testowania – 1 pkt.
 
-Implementacja powinna obejmować:
-
+# Implementacja powinna obejmować:
 4. Warstwa Logiki biznesowej (ocena 3 - element wymagany) – 5 pkt.
-
 5. Warstwa prezentacji – 5 pkt.
-
 6. Baza danych – 4 pkt.
 
-Punkty ujemne:
+# Punkty ujemne:
 1.	Brak określonych, lub błędne wymagania funkcjonalne i niefunkcjonalne: – 0,25 pkt.
 2.	Brak diagramów klas: – 0,25 pkt.
 3.	Brak testów jednostkowych: od - 0,25 pkt. do – 1 pkt.
 4.	Brak dokumentacji technicznej kodu: od - 0,25 pkt. do – 1 pkt.
 
-Ocena końcowa:
-
+# Ocena końcowa:
 2    	– < 9 pkt.
 
 3    	– 9-10 pkt.
