@@ -3,7 +3,7 @@
 # KOZIEŁ Adrian, 55242
 # NIŚCIOR Inga, 51418
 # SZYMAŃSKI Emil, 51424
-# WIERZBICKI Piotr, 
+# WIERZBICKI Piotr, 55264
 
 Wybrany temat: Platforma e-commerce w C# i React
 
