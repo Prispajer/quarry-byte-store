@@ -16,11 +16,13 @@ Pod koniec zajęć przedstawienie repozytorium, w którym będzie znajdował si�
 
 # Punkty:
 10 pkt. - Projekt w repozytorium. W nazwie repozytorium proszę podać numery indeksu członków zespołu oddzielone podkreśleniem np. 12341_5342_12343
+
 10 pkt. - Przedstawienie planu projektu(iteracji) w narzędziu do tego przystosowanym – np. JIRA, Github project itp.
+
 10 pkt. - Dokumentacja projektu wraz z informacją jak uruchomić aplikację (może być plik readme.md)
+
 10 pkt. - Systematyka w pracy widoczna w historii git – 
+
 10 pkt. - Prezentacja projektu 
- 
-Osoby pracujące obecnie w zespołach deweloperskich IT, mogą uzyskać zaliczenie bazując na umiejętnościach zdobytych podczas pracy komercyjnej. Proszę takie osoby o kontakt w wiadomości prywatnej.
  
 # DEADLINE: 01.06.2024
