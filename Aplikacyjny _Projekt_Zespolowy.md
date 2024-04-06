@@ -1,3 +1,10 @@
+# e-commerce-project
+# GOŁACKA Anna, 51412 
+# KOZIEŁ Adrian, 55242
+# NIŚCIOR Inga, 51418
+# SZYMAŃSKI Emil, 51424
+# WIERZBICKI Piotr, 
+
 # Cel projektu i warunki zaliczenia
  
 Głównym celem robienia projektów IT w grupach jest umożliwienie studentom IT zdobycia praktycznego doświadczenia w pracy zespołowej, a także w realizacji projektów informatycznych. Praca w grupie pozwala na rozwijanie umiejętności komunikacyjnych, zarządzania czasem, rozwiązywania problemów oraz współpracy z innymi członkami zespołu. Ponadto, projekty w grupach umożliwiają wykorzystanie różnych specjalizacji w zespole, co pozwala na stworzenie kompleksowego i skutecznego rozwiązania informatycznego. 
