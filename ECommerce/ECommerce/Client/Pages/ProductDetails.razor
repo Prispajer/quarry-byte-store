@@ -31,6 +31,17 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        product = ProductService.Products.Find(p => p.Id == Id);
+        message = "Loading...";
+
+        var result = await ProductService.GetProduct(Id);
+        //checking if product exists
+        if (!result.Success)
+        {
+            message = result.Message;
+        }
+        else
+        {
+            product = result.Data;
+        }
     }
 }
