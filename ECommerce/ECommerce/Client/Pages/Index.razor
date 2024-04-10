@@ -1,5 +1,6 @@
 ﻿@page "/"
 @page "/{categoryUrl}"
+@page "/search/{searchText}"
 @inject IProductService ProductService
 
 <PageTitle>Index</PageTitle>
@@ -9,10 +10,20 @@
     
     [Parameter]
     public string? CategoryUrl { get; set; } = null;
+    [Parameter]
+    public string? SearchText { get; set; } = null;
 
     //Method called when page parameters are setand retrieves products from the product service based on URL category
     protected override async Task OnParametersSetAsync()
     {
-        await ProductService.GetProducts(CategoryUrl);
+        //await ProductService.GetProducts(CategoryUrl);
+        if (SearchText != null)
+        {
+            await ProductService.SearchProducts(SearchText);
+        }
+        else
+        {
+            await ProductService.GetProducts(CategoryUrl);
+        }
     }
 }
