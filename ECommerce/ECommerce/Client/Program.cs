@@ -6,6 +6,7 @@ using Blazored.LocalStorage;
 using ECommerce.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using ECommerce.Client.Services.CartService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -17,4 +18,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IProductService, ProductService>();
 //registered CategoryService
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+//registered CartService
+builder.Services.AddScoped<ICartService, CartService>();
 await builder.Build().RunAsync();

@@ -3,6 +3,7 @@ global using ECommerce.Shared;
 global using ECommerce.Server.Data;
 global using ECommerce.Server.Services.ProductService;
 global using ECommerce.Server.Services.CategoryService;
+global using ECommerce.Server.Services.CartService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 
@@ -23,6 +24,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
 //The ICategoryService interface registered with the CategoryService
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+// The ICartService interface registered with the CartService
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 app.UseSwaggerUI();
