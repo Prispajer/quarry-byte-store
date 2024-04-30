@@ -2,7 +2,7 @@
 @implements IDisposable
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
 {
-    <span>@ProductService.Message</span>
+    <span>Loading products...</span>
 }
 else
 {
@@ -21,7 +21,6 @@ else
                     </a>
                     <p>@product.Description</p>
                     <h5 class="price">
-                        @*$@product.Price*@
                         @GetPriceText(product)
                     </h5>
                 </div>
