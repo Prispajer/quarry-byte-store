@@ -1,5 +1,8 @@
 ﻿
 
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
 namespace ECommerce.Server.Data
 {
     public class DataContext : DbContext
@@ -305,7 +308,27 @@ namespace ECommerce.Server.Data
                     Price = 19.99m
                 }
             );
+
+            modelBuilder.Entity<User>().HasData(
+
+                new User
+                {
+                    Id = 1,
+                    Email = "gotomordor@gmail.com",
+                    Password = "Gandalf!",
+                    Name = "Frodo"
+                },
+                new User
+                {
+                    Id = 2,
+                    Email = "youshallnotpass@gmail.com",
+                    Password = "Mellon",
+                    Name = "Gandalf"
+                }
+            );
         }
+
+        public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }

@@ -5,7 +5,7 @@ global using ECommerce.Server.Services.ProductService;
 global using ECommerce.Server.Services.CategoryService;
 global using ECommerce.Server.Services.CartService;
 using Microsoft.AspNetCore.ResponseCompression;
-
+using ECommerce.Server.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +20,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//The IUserService interface registered with the UserService
+builder.Services.AddScoped<IUserService, UserService>();
 //The IProductService interface registered with the ProductService
 builder.Services.AddScoped<IProductService, ProductService>();
 //The ICategoryService interface registered with the CategoryService
