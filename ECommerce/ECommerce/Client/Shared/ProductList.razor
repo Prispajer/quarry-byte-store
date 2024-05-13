@@ -1,28 +1,29 @@
 ﻿@inject IProductService ProductService
 @implements IDisposable
+
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
 {
-    <span>Loading products...</span>
+    <div class="no-results">
+        No matching results!
+    </div>
 }
 else
 {
-    <ul class="list-unstyled">
+    <ul class="product-list">
         @foreach (var product in ProductService.Products)
         {
-            <li class="media my-3">
-                <div class="media-img-wrapper mr-2">
+            <li class="product-card">
+                <div class="product-image">
                     <a href="/product/@product.Id">
-                        <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
+                        <img src="@product.ImageUrl" alt="@product.Title" />
                     </a>
                 </div>
-                <div class="media-body">
-                    <a href="/product/@product.Id">
-                        <h4 class="mb-0">@product.Title</h4>
-                    </a>
-                    <p>@product.Description</p>
-                    <h5 class="price">
+                <div class="product-details">
+                    <a href="/product/@product.Id" class="product-title">@product.Title</a>
+                    <p class="product-description">@product.Description</p>
+                    <div class="product-price">
                         @GetPriceText(product)
-                    </h5>
+                    </div>
                 </div>
             </li>
         }
@@ -30,18 +31,18 @@ else
 }
 
 @code {
-    //Called after the component is initialized - notifices the component that its state has changed when applicable
+    //Called after the component is initialized - notifies the component that its state has changed when applicable
     protected override void OnInitialized()
     {
-        
         ProductService.ProductsChanged += StateHasChanged;
     }
 
-    //resseting of StateHasChanged method
+    //Resetting of StateHasChanged method
     public void Dispose()
     {
         ProductService.ProductsChanged -= StateHasChanged;
     }
+
     private string GetPriceText(Product product)
     {
         var variants = product.Variants;
@@ -57,4 +58,3 @@ else
         return $"Starting at ${minPrice}";
     }
 }
-
