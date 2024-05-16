@@ -2,11 +2,15 @@
 
 <div class="page">
     <main>
-        <header class="top-row px-4">
+        <header class="header-container">
+            <button class="nav-toggle" @onclick="ToggleNavMenu">
+                <span class="oi oi-menu"></span>
+            </button>
+            <Logo />
             <Search />
             <CartCounter />
         </header>
-        <nav class="nav-container">
+        <nav class="nav-container @NavMenuCssClass">
             <NavMenu />
         </nav>
         <section class="main-container">
@@ -14,3 +18,16 @@
         </section>
     </main>
 </div>
+
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "nav-mobile" : "";
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+   }
+}

@@ -9,10 +9,10 @@
 }
 else
 {
-    <ul class="product-list">
+    <div class="product-list">
         @foreach (var product in ProductService.Products)
         {
-            <li class="product-card">
+            <div class="product-card">
                 <div class="product-image">
                     <a href="/product/@product.Id">
                         <img src="@product.ImageUrl" alt="@product.Title" />
@@ -25,9 +25,9 @@ else
                         @GetPriceText(product)
                     </div>
                 </div>
-            </li>
+            </div>
         }
-    </ul>
+    </div>
 }
 
 @code {

@@ -1,6 +1,9 @@
 ﻿@inject ICategoryService CategoryService
 
-<div class="nav" @onclick="ToggleNavMenu">
+<button class="nav-hamburger" @onclick="ToggleNavMenu">
+    <span class="oi oi-menu" aria-hidden="true"></span>
+</button>
+<div class="nav @NavMenuCssClass">
     <div class="nav-item px-3">
         <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
             <span class="oi oi-home" aria-hidden="true"></span> Home
@@ -20,7 +23,7 @@
 @code {
     private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "nav-mobile" : "";
 
     private void ToggleNavMenu()
     {
