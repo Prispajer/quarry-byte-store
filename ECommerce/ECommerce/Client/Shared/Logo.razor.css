@@ -1,14 +1,18 @@
 ﻿.logo-container {
     display: flex;
-    align-items: center; 
-    justify-content: center;
-    padding: 0 20px;
+    align-items: center;
+    margin-bottom:10px;
 }
 
 .logo-name {
+    display:flex;
     font-size: 32px;
     color: #FF2260;
     font-weight: bold;
+    text-decoration:none;
+}
+
+.logo-name:hover {
     text-decoration: none;
 }
 
