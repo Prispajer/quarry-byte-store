@@ -2,10 +2,19 @@
 @inject ISyncLocalStorageService LocalStorage
 @implements IDisposable
 
-<a href="cart" class="btn btn-info">
+<div class="icons-container"
+<a href="cart" class="icons-option">
     <i class="oi oi-cart"></i>
-    <span class="badge">@GetCartItemsCount()</span>
+    <span class="cart-counter">@GetCartItemsCount()</span>
 </a>
+<a href="login" class="icons-option header-hover">
+    <span class="">Zaloguj</span>
+</a>
+<span class="vertical-line">|</span>
+<a href="register" class="icons-option header-hover">
+    <span class="">Zarejestruj</span>
+</a>
+</div>
 
 @code {
     private int GetCartItemsCount()

@@ -1,0 +1,50 @@
+﻿.icons-container{
+    display:flex;
+    align-items:center;
+    flex-grow:0;
+    margin: 0 0 0 20px;
+}
+
+.icons-option {
+    display: flex;
+    text-decoration: none;
+    color: #FFFFFF;
+    margin: 0 0 0 10px;
+}
+
+.icons-option:first-child {
+    position: relative;
+}
+
+.cart-counter {
+    display:flex;
+    justify-content:center;
+    font-size:12px;
+    font-weight:600;
+    border-radius:50%;
+    min-width:16px;
+    max-height:16px;
+    background-color: #E00061;
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    text-decoration: none;
+}
+
+.vertical-line{
+    color:#FFFFFF;
+    margin: 0 0 0 10px;
+    cursor:default;
+}
+
+.header-hover:hover {
+    color: #E19C4E;
+}
+
+.oi {
+    margin: 0 0 8px 0;
+}
+
+.oi:hover {
+    color: #E19C4E;
+ }

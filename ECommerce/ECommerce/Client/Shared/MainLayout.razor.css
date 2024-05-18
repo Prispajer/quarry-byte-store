@@ -1,13 +1,10 @@
 .page {
     display: flex;
     flex-direction: column;
-    max-width: 1300px;
-    margin: 0 auto;
 }
-
-.page::before {
+    .page::before {
         content: "";
-        background-color: #692b2f;
+        background-color: #A62B0F;
         top: 0;
         right: 0;
         bottom: 0;
@@ -15,28 +12,46 @@
         height: 100vh;
         position: absolute;
         z-index: -1;
-}
+    }
 
 .header-container {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    height: 3.5rem;
+    width: 100%;
+    padding: 20px 10px;
+    background-color: #A62B0F;
+}
+
+.header-content {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    padding: 24px 32px;
+    justify-content:space-between;
+    width: 100%;
+    max-width: calc(1200px + 40px);
+    margin: 0 auto;
 }
 
 .nav-container {
+    width: 100%;
+    background-color: #741e0a;
+    padding: 0 10px;
+}
+
+.nav-content {
     display: flex;
     align-items: center;
-    flex-direction: row;
-   
+    max-width: calc(1200px + 40px);
+    width:100%;
+    margin:0 auto;
 }
 
 .main-container {
-    padding: 20px 10px;
-    background-color: #692b2f;
+    width: 100%;
+    background-color: #531507;
+}
+
+.main-content {
+    max-width: calc(1200px + 40px);
+    width: 100%;
+    margin: 0 auto;
 }
 
 .nav-active {
@@ -47,11 +62,6 @@
     display:block;
 }
 
-    .header-container ::deep a, .header-container ::deep .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-    }
 
 @media (max-width: 640.98px) {
     /*.header-container:not(.auth) {
@@ -69,14 +79,9 @@
 }
 
 @media (min-width:650px){
-    .page {
-        flex-direction: row;
-    }
-
+   
     .header-container {
-        position: sticky;
-        top: 0;
-        z-index: 1;
+        display:flex;
     }
 
         .header-container.auth ::deep a:first-child {
@@ -85,10 +90,6 @@
             width: 0;
         }
 
-    .header-container, article {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
 
     .main-container {
         padding: 24px 32px;

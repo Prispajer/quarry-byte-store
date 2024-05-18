@@ -3,31 +3,35 @@
 <div class="page">
     <main>
         <header class="header-container">
-            <button class="nav-toggle" @onclick="ToggleNavMenu">
+            <div class="header-content">
+            <button class="nav-toggle" @onclick="ToggleNav">
                 <span class="oi oi-menu"></span>
             </button>
             <Logo />
             <Search />
             <CartCounter />
+            </div>
         </header>
-        <nav class="nav-container @NavMenuCssClass">
-            <NavMenu />
+        <nav class="nav-container @navRender">
+            <div class="nav-content">
+             <NavMenu NavState="navState" />
+            </div>
         </nav>
         <section class="main-container">
-            @Body
+            <div class="main-content">
+                @Body
+            </div>
         </section>
     </main>
 </div>
 
-
-
 @code {
-    private bool collapseNavMenu = true;
+    protected bool navState = false;
 
-    private string NavMenuCssClass => collapseNavMenu ? "nav-mobile" : "";
+    protected string navRender => navState ? "nav-active" : "";
 
-    private void ToggleNavMenu()
+    protected void ToggleNav()
     {
-        collapseNavMenu = !collapseNavMenu;
-   }
+        navState = !navState;
+    }
 }

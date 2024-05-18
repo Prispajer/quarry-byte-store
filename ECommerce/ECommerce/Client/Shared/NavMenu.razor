@@ -1,18 +1,22 @@
 ﻿@inject ICategoryService CategoryService
+@inject INavigationService NavigationService
 
-<button class="nav-hamburger" @onclick="ToggleNavMenu">
-    <span class="oi oi-menu" aria-hidden="true"></span>
-</button>
-<div class="nav @NavMenuCssClass">
-    <div class="nav-item px-3">
+<div class="nav @NavRender">
+    <div class="nav-logo">
+        <Logo />
+        <button @onclick="ToggleNav" class="close-button">
+            <span class="oi oi-x" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="nav-item">
         <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-            <span class="oi oi-home" aria-hidden="true"></span> Home
+           Home
         </NavLink>
     </div>
 
     @foreach (var category in CategoryService.Categories)
     {
-        <div class="nav-item px-3">
+        <div class="nav-item">
             <NavLink class="nav-link" href="@category.Url">
                 @category.Name
             </NavLink>
@@ -21,17 +25,19 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "nav-mobile" : "";
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    [Parameter]
+    public bool NavState { get; set; }
+    [Parameter]
+    public string? NavRender { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await CategoryService.GetCategories();
+    }
+
+    private void ToggleNav()
+    {
+        NavState = !NavState;
+        Console.WriteLine(NavRender);
     }
 }
