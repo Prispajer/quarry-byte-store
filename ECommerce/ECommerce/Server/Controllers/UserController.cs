@@ -1,5 +1,6 @@
 ﻿using ECommerce.Server.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace ECommerce.Server.Controllers
 {
@@ -30,24 +31,55 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<Product>>> CreateUser(string name, string email, string password)
+        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(string email, string password, string name)
         {;
-            throw new NotImplementedException();
-            // return Ok(result);
+            var result = await _userService.CreateNewUserAsync(email, password, name);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Conflict(result);
+            }
         }
 
         [HttpPatch("resetpassword")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> ChangePassword(int id, string oldPassword, string newPassword)
+        public async Task<ActionResult<ServiceResponse<User>>> ChangePassword(int id, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
-            // return Ok(result);
+            var result = await _userService.CheckUserOldPasswordByIdAsync(id, oldPassword);
+            if (!result.Success || result.Data == null)
+            {
+                return Unauthorized(result);
+            }
+            result = await _userService.ChangeUserPasswordAsync(result.Data,  newPassword);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Conflict(result);
+            }
         }
 
         [HttpPatch("forgotpassword")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> ChangeForgottenPassword(string email, string newPassword)
+        public async Task<ActionResult<ServiceResponse<User>>> ChangeForgottenPassword(string email, string newPassword)
         {
-            throw new NotImplementedException();
-            // return Ok(result);
+            var result = await _userService.GetUserByEmailAsync(email);
+            if (!result.Success || result.Data == null)
+            {
+                return BadRequest(result);
+            }
+            result = await _userService.ChangeUserPasswordAsync(result.Data, newPassword);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Conflict(result);
+            }
         }
     }
 }
