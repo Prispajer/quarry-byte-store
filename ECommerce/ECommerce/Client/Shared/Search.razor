@@ -1,14 +1,17 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IProductService ProductService
 
-<div class="input-group">
+<div class="search-container">
+    <button class="search-button" @onclick="SearchProducts">
+            <span class="oi oi-magnifying-glass"></span>
+    </button>
     <input @bind-value="searchText"
            @bind-value:event="oninput"
            type="search"
            list="products"
            @onkeyup="HandleSearch"
-           class="form-control"
-           placeholder="Search..."
+           class="search-input"
+           placeholder="Szukaj gry, książki czy e-booki"
            @ref="searchInput" />
     <datalist id="products">
         @foreach (var suggestion in suggestions)
@@ -16,11 +19,6 @@
             <option>@suggestion</option>
         }
     </datalist>
-    <div class="input-group-append">
-        <button class="btn btn-primary" @onclick="SearchProducts">
-            <span class="oi oi-magnifying-glass"></span>
-        </button>
-    </div>
 </div>
 
 @code {

@@ -1,0 +1,33 @@
+﻿.search-container {
+    display: flex;
+    align-items: center;
+    flex-grow:1;
+    width: 100%;
+    height: 55px;
+    padding: 0 10px;
+    background-color: #A62B0F;
+    border: 1px solid #D9D9DB;
+}
+
+.search-button {
+    height: 100%;
+    flex-grow:0;
+    width: 40px;
+    border:none;
+    background-color: transparent;
+}
+
+.search-input {
+    height: 100%;
+    flex-grow: 1;
+    color: #D9D9DB;
+    font-weight:800;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #D4D7DE;
+}
+
