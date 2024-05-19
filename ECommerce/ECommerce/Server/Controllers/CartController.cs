@@ -1,7 +1,4 @@
-﻿using ECommerce.Client.Services.CartService;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ICartService = ECommerce.Server.Services.CartService.ICartService;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Server.Controllers
 {

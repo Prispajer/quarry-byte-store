@@ -1,9 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-
-namespace ECommerce.Server.Data
+﻿namespace ECommerce.Server.Data
 {
     public class DataContext : DbContext
     {

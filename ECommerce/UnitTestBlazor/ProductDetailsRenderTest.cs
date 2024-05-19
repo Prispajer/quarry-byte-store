@@ -1,12 +1,10 @@
 ﻿using Bunit;
-using Xunit;
 using Moq;
 using ECommerce.Client.Services.ProductService;
 using ECommerce.Shared;
 using ECommerce.Client.Pages;
 using ECommerce.Client.Services.CartService;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph.Models.CallRecords;
 
 
 namespace UnitTestBlazor

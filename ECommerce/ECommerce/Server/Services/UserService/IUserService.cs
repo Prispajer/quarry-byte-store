@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ECommerce.Server.Services.UserService
+﻿namespace ECommerce.Server.Services.UserService
 {
     public interface IUserService
     {

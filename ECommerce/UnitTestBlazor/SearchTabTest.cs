@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ECommerce.Client.Services.ProductService;
 using ECommerce.Client.Shared;
 using Microsoft.Extensions.DependencyInjection;
