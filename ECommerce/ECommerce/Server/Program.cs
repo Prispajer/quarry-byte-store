@@ -4,8 +4,11 @@ global using ECommerce.Server.Data;
 global using ECommerce.Server.Services.ProductService;
 global using ECommerce.Server.Services.CategoryService;
 global using ECommerce.Server.Services.CartService;
-using Microsoft.AspNetCore.ResponseCompression;
 using ECommerce.Server.Services.UserService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ECommerce.Server.Services.TokenService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,29 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
+});
+
 //The IUserService interface registered with the UserService
 builder.Services.AddScoped<IUserService, UserService>();
 //The IProductService interface registered with the ProductService
@@ -28,6 +54,10 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 // The ICartService interface registered with the CartService
 builder.Services.AddScoped<ICartService, CartService>();
+// The ICartService interface registered with the CartService
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseSwaggerUI();

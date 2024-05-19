@@ -1,4 +1,6 @@
-﻿using ECommerce.Server.Services.UserService;
+﻿using ECommerce.Server.Services.TokenService;
+using ECommerce.Server.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Server.Controllers
@@ -8,24 +10,27 @@ namespace ECommerce.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
+            _tokenService = tokenService;
         }
 
 
         [HttpGet("login")]
-        public async Task<ActionResult<ServiceResponse<User>>> GetUserByEmailAndPassword(string email, string password)
+        public async Task<ActionResult<string>> GetUserByEmailAndPassword(string email, string password)
         {
             var result = await _userService.GetUserByEmailAndPasswordAsync(email, password);
-            if (result.Success)
+            if (!result.Success || result.Data == null)
             {
-                return Ok(result);
+                return Unauthorized(string.Empty);
             }
             else
             {
-                return Unauthorized(result);
+                string token = _tokenService.GenerateToken(result.Data);
+                return Ok(token);
             }
         }
 
@@ -44,6 +49,7 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPatch("resetpassword")]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<User>>> ChangePassword(int id, string oldPassword, string newPassword)
         {
             var result = await _userService.CheckUserOldPasswordByIdAsync(id, oldPassword);
@@ -63,6 +69,7 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPatch("forgotpassword")]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<User>>> ChangeForgottenPassword(string email, string newPassword)
         {
             var result = await _userService.GetUserByEmailAsync(email);

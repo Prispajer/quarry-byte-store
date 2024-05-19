@@ -26,9 +26,9 @@
             {
                 return new ServiceResponse<User>
                 {
-                Data = data,
+                    Data = data,
                     Success = true
-            };
+                };
             }
 
             return new ServiceResponse<User>
