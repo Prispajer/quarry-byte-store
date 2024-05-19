@@ -315,15 +315,17 @@ namespace ECommerce.Server.Data
                 {
                     Id = 1,
                     Email = "gotomordor@gmail.com",
-                    Password = "Gandalf!",
-                    Name = "Frodo"
+                    PasswordHash = BC.HashPassword("Gandalf!"),
+                    Name = "Frodo",
+                    IsAdmin = false
                 },
                 new User
                 {
                     Id = 2,
                     Email = "youshallnotpass@gmail.com",
-                    Password = "Mellon",
-                    Name = "Gandalf"
+                    PasswordHash = BC.HashPassword("Mellon"),
+                    Name = "Gandalf",
+                    IsAdmin = true
                 }
             );
         }

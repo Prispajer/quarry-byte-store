@@ -1,6 +1,5 @@
 ﻿using ECommerce.Server.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace ECommerce.Server.Controllers
 {
@@ -31,9 +30,9 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(string email, string password, string name)
+        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(string email, string password, string name, bool isAdmin)
         {;
-            var result = await _userService.CreateNewUserAsync(email, password, name);
+            var result = await _userService.CreateNewUserAsync(email, password, name, isAdmin);
             if (result.Success)
             {
                 return Ok(result);

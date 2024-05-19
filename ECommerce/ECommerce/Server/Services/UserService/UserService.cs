@@ -7,6 +7,7 @@
         {
             _context = context;
         }
+
         public async Task<ServiceResponse<User>> GetUserByEmailAsync(string email)
         {
             var data = await _context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
@@ -20,14 +21,22 @@
         }
         public async Task<ServiceResponse<User>> GetUserByEmailAndPasswordAsync(string email, string password)
         {
-            var data = await _context.Users.Where(x => x.Email == email && x.Password == password).SingleOrDefaultAsync();
-            var response = new ServiceResponse<User>
+            var data = await _context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
+            if (data != null && BC.Verify(password, data.PasswordHash))
             {
+                return new ServiceResponse<User>
+                {
                 Data = data,
-                Success = data != null
+                    Success = true
             };
+            }
 
-            return response;
+            return new ServiceResponse<User>
+            {
+                Data = null,
+                Message = "Could not authenticate user",
+                Success = false
+            };
         }
 
         private async Task<bool> CheckIfUserWithEmailExistsAsync(string email)
@@ -40,8 +49,10 @@
             return await _context.Users.AnyAsync(x => x.Name == name);
         }
 
-        public async Task<ServiceResponse<User>> CreateNewUserAsync(string email, string password, string name)
+        public async Task<ServiceResponse<User>> CreateNewUserAsync(string email, string password, string name, bool isAdmin)
         {
+            string passwordHash = BC.HashPassword(password);
+
             if (await CheckIfUserWithEmailExistsAsync(email))
             {
                 return new ServiceResponse<User>
@@ -60,7 +71,7 @@
                     Success = false
                 };
             }
-            var user = new User { Email = email, Password = password, Name = name };
+            var user = new User { Email = email, PasswordHash = passwordHash, Name = name, IsAdmin = isAdmin };
             _context.Users.Add(user);
             _context.SaveChanges();
             var response = new ServiceResponse<User>
@@ -90,7 +101,7 @@
                     Success = false
                 };
             }
-            if (user.Password != oldPassword)
+            if (!BC.Verify(oldPassword, user.PasswordHash))
             {
                 return new ServiceResponse<User>
                 {
@@ -109,7 +120,7 @@
 
         public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(User user, string newPassword)
         {
-            if (user.Password == newPassword)
+            if (BC.Verify(newPassword, user.PasswordHash))
             {
                 return new ServiceResponse<User>
                 {
@@ -120,7 +131,7 @@
             }
 
             _context.Users.Update(user);
-            user.Password = newPassword;
+            user.PasswordHash = BC.HashPassword(newPassword);
             await _context.SaveChangesAsync();
             
             return new ServiceResponse<User>
