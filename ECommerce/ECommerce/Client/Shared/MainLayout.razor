@@ -1,20 +1,22 @@
 ﻿@inherits LayoutComponentBase
+@inject INavigationService NavigationService
+
 
 <div class="page">
     <main>
         <header class="header-container">
             <div class="header-content">
-            <button class="nav-toggle" @onclick="ToggleNav">
-                <span class="oi oi-menu"></span>
-            </button>
-            <Logo />
-            <Search />
-            <CartCounter />
+                <button class="nav-toggle" @onclick="OpenNav">
+                    <span class="oi oi-menu"></span>
+                </button>
+                <Logo />
+                <Search />
+                <CartCounter />
             </div>
         </header>
         <nav class="nav-container @navRender">
             <div class="nav-content">
-             <NavMenu NavState="navState" />
+                <NavMenu />
             </div>
         </nav>
         <section class="main-container">
@@ -26,12 +28,20 @@
 </div>
 
 @code {
-    protected bool navState = false;
+    private string navRender => NavigationService.NavState ? "nav-mobile" : "";
 
-    protected string navRender => navState ? "nav-active" : "";
-
-    protected void ToggleNav()
+    private void OpenNav()
     {
-        navState = !navState;
+        NavigationService.ChangeNavState(true);
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationService.NavStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        NavigationService.NavStateChanged -= StateHasChanged;
     }
 }
