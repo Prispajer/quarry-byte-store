@@ -6,9 +6,6 @@
     <main>
         <header class="header-container">
             <div class="header-content">
-                <button class="nav-toggle" @onclick="OpenNav">
-                    <span class="oi oi-menu"></span>
-                </button>
                 <Logo />
                 <Search />
                 <CartCounter />
@@ -29,19 +26,4 @@
 
 @code {
     private string navRender => NavigationService.NavState ? "nav-mobile" : "";
-
-    private void OpenNav()
-    {
-        NavigationService.ChangeNavState(true);
-    }
-
-    protected override void OnInitialized()
-    {
-        NavigationService.NavStateChanged += StateHasChanged;
-    }
-
-    public void Dispose()
-    {
-        NavigationService.NavStateChanged -= StateHasChanged;
-    }
 }

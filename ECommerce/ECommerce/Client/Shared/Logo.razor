@@ -1,4 +1,27 @@
-﻿<div class="logo-container">
+﻿@inject INavigationService NavigationService
+
+
+<div class="logo-container">
+    <button class="nav-hamburger" @onclick="OpenNav">
+        <span class="oi oi-menu"></span>
+    </button>
     <img class="logo-image" src="/QuarryByteMascot.png" alt="QuarryByteLogo" />
     <a class="logo-name" href="/" Match="NavLinkMatch.All">QuarryByte</a>
 </div>
+
+@code {
+    private void OpenNav()
+    {
+        NavigationService.ChangeNavState(true);
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationService.NavStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        NavigationService.NavStateChanged -= StateHasChanged;
+    }
+}

@@ -3,15 +3,21 @@
 @implements IDisposable
 
 <div class="icons-container"
-<a href="cart" class="icons-option">
-    <i class="oi oi-cart"></i>
+<button class="icon-option icon-toggle">
+    <i class="oi oi-person"></i>
+</button>
+<a href="cart" class="icon-option">
+    <image src="/cart.png" class="oi"></image>
     <span class="cart-counter">@GetCartItemsCount()</span>
 </a>
-<a href="login" class="icons-option header-hover">
+<button class="icon-option icon-toggle">
+    <i class="oi oi-magnifying-glass"></i>
+</button>
+<a href="login" class="auth-option header-hover">
     <span class="">Zaloguj</span>
 </a>
 <span class="vertical-line">|</span>
-<a href="register" class="icons-option header-hover">
+<a href="register" class="auth-option header-hover">
     <span class="">Zarejestruj</span>
 </a>
 </div>

@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="nav-item">
-        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <NavLink @onclick="CloseNav" class="nav-link" href="" Match="NavLinkMatch.All">
            Home
         </NavLink>
     </div>
@@ -17,7 +17,7 @@
     @foreach (var category in CategoryService.Categories)
     {
         <div class="nav-item">
-            <NavLink class="nav-link" href="@category.Url">
+            <NavLink @onclick="CloseNav" class="nav-link" href="@category.Url">
                 @category.Name
             </NavLink>
         </div>
