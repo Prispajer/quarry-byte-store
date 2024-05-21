@@ -5,45 +5,55 @@
 
 <h3>Mój koszyk</h3>
 
-@if (cartProducts == null || cartProducts.Count == 0)
+@if (isLoading)
+{
+    <span>Loading...</span>
+}
+else if (cartProducts == null || cartProducts.Count == 0)
 {
     <span>@message</span>
 }
 else
 {
-    <div>
+    <div class="cart-container">
         @foreach (var product in cartProducts)
         {
-            <div class="cart-container">
+            <div class="cart-product-container">
                 <div class="cart-product-image">
                     <img src="@product.ImageUrl" class="image" />
                 </div>
-                <div class="cart-product-name">
-                    <h5><a href="/product/@product.ProductId">@product.Title</a></h5>
-                    <span>@product.ProductType</span><br />
-                    <input type="number" value="@product.Quantity"
-                   @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))"
-                   class="form-control input-quantity"
-                   min="1" />
-                    <button class="btn-delete" @onclick="@(() =>
-                        RemoveProductFromCart(product.ProductId, product.ProductTypeId))">
-                        Delete
-                    </button>
+                <div class="cart-product-informations">
+                    <div class="cart-product-title"><h5><a href="/product/@product.ProductId">@product.Title</a></h5></div>
+                    <div class="cart-product-type"><span>@product.ProductType</span></div>
+                    <div class="cart-product-quantity">
+                        <span>Quantity</span>
+                        <input type="number" value="@product.Quantity"
+                               @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))"
+                               class="quantity-input"
+                               min="1" />
+                    </div>
+                    <div class="cart-product-delete">
+                        <button class="delete-button" @onclick="@(() => RemoveProductFromCart(product.ProductId, product.ProductTypeId))">
+                            Delete
+                        </button>
+                    </div>
                 </div>
                 <div class="cart-product-price">$@(product.Price * product.Quantity)</div>
             </div>
         }
-        <div class="cart-product-price">
-            Total (@cartProducts.Count): $@cartProducts.Sum(product => @product.Price * product.Quantity)
+        <div class="cart-product-summary">
+            <div class="cart-product-items"><span>Items</span></div>
+            <div class="cart-product-price">
+                Total (@cartProducts.Count): $@cartProducts.Sum(product => product.Price * product.Quantity)
+            </div>
         </div>
     </div>
 }
 
-
-
 @code {
     List<CartProductResponse> cartProducts = null;
     string message = "Loading cart...";
+    bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,7 +68,9 @@ else
 
     private async Task LoadCart()
     {
-        if ((await CartService.GetCartItems()).Count == 0)
+        isLoading = true;
+        var items = await CartService.GetCartItems();
+        if (items.Count == 0)
         {
             message = "Your cart is empty.";
             cartProducts = new List<CartProductResponse>();
@@ -67,6 +79,7 @@ else
         {
             cartProducts = await CartService.GetCartProducts();
         }
+        isLoading = false;
     }
 
     private async Task UpdateQuantity(ChangeEventArgs e, CartProductResponse product)
@@ -75,5 +88,6 @@ else
         if (product.Quantity < 1)
             product.Quantity = 1;
         await CartService.UpdateQuantity(product);
+        StateHasChanged();
     }
 }

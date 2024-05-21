@@ -61,7 +61,7 @@ img{
 }
 
 
-@media (min-width: 760px){
+@media (min-width: 768px){
     .auth-option {
         display: flex;
         text-decoration: none;
@@ -70,6 +70,7 @@ img{
     }
 
     .vertical-line {
+        display:block;
         color: #FFFFFF;
         margin: 0 0 0 10px;
         cursor: default;

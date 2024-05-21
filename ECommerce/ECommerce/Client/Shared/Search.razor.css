@@ -24,7 +24,7 @@
     color: #D4D7DE;
 }
 
-@media (min-width:850px) {
+@media (min-width:768px) {
     .search-container {
         display: flex;
         align-items: center;
