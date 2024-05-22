@@ -2,24 +2,24 @@
 @inject ISyncLocalStorageService LocalStorage
 @implements IDisposable
 
-<div class="icons-container"
-<button class="icon-option icon-toggle">
-    <i class="oi oi-person"></i>
-</button>
-<a href="cart" class="icon-option">
-    <image src="/cart.png" class="oi"></image>
-    <span class="cart-counter">@GetCartItemsCount()</span>
-</a>
-<button class="icon-option icon-toggle">
-    <i class="oi oi-magnifying-glass"></i>
-</button>
-<a href="login" class="auth-option header-hover">
-    <span class="">Zaloguj</span>
-</a>
-<span class="vertical-line">|</span>
-<a href="register" class="auth-option header-hover">
-    <span class="">Zarejestruj</span>
-</a>
+<div class="icons-container">
+    <button class="icon-option icon-toggle">
+        <i class="oi oi-person"></i>
+    </button>
+    <a href="cart" class="icon-option">
+        <img src="/cart.png" class="oi" />
+        <span class="cart-counter">@GetCartItemsCount()</span>
+    </a>
+    <button class="icon-option icon-toggle">
+        <i class="oi oi-magnifying-glass"></i>
+    </button>
+    <a href="login" class="auth-option header-hover">
+        <span>Zaloguj</span>
+    </a>
+    <span class="vertical-line">|</span>
+    <a href="register" class="auth-option header-hover">
+        <span>Zarejestruj</span>
+    </a>
 </div>
 
 @code {
