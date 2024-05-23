@@ -1,20 +1,18 @@
 ﻿@inherits LayoutComponentBase
+@inject INavigationService NavigationService
 
 <div class="page">
     <main>
         <header class="header-container">
             <div class="header-content">
-            <button class="nav-toggle" @onclick="ToggleNav">
-                <span class="oi oi-menu"></span>
-            </button>
-            <Logo />
-            <Search />
-            <CartCounter />
+                <Logo />
+                <Search />
+                <CartCounter />
             </div>
         </header>
         <nav class="nav-container @navRender">
             <div class="nav-content">
-             <NavMenu NavState="navState" />
+                <NavMenu />
             </div>
         </nav>
         <section class="main-container">
@@ -26,12 +24,5 @@
 </div>
 
 @code {
-    protected bool navState = false;
-
-    protected string navRender => navState ? "nav-active" : "";
-
-    protected void ToggleNav()
-    {
-        navState = !navState;
-    }
+    private string navRender => NavigationService.NavState ? "nav-mobile" : "";
 }

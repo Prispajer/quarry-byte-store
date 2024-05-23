@@ -1,12 +1,5 @@
 ﻿.search-container {
-    display: flex;
-    align-items: center;
-    flex-grow:1;
-    width: 100%;
-    height: 55px;
-    padding: 0 10px;
-    background-color: #A62B0F;
-    border: 1px solid #D9D9DB;
+   display:none;
 }
 
 .search-button {
@@ -31,3 +24,15 @@
     color: #D4D7DE;
 }
 
+@media (min-width:768px) {
+    .search-container {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        width: 100%;
+        height: 55px;
+        padding: 0 10px;
+        background-color: #A62B0F;
+        border: 1px solid #D9D9DB;
+    }
+}

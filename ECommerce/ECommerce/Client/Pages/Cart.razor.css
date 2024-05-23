@@ -1,41 +1,113 @@
-﻿﻿.container {
+﻿.cart-product-container {
     display: flex;
-    padding: 6px;
+    padding: 10px 10px 10px 0;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid #F28F16;
+    background-color: #331517;
 }
 
-.image-wrapper {
-    width: 150px;
-    text-align: center;
+.cart-product-image {
+    min-width: 80px;
+    max-width: 80px;
 }
 
-.image {
-    max-height: 150px;
-    max-width: 150px;
-    padding: 6px;
-}
+    .cart-product-image img {
+        width: 100%;
+        height: 100%;
+    }
+ 
 
-.name {
+.cart-product-informations {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
-    padding: 6px;
+    padding: 0 6px;
 }
+
+    .cart-product-informations a {
+        text-decoration: none;
+        color: #333;
+    }
+
+.cart-product-title {
+    min-width: 200px;
+}
+
+    .cart-product-title a {
+        font-size: 20px;
+        font-weight: bold;
+        color: #AF2260;
+    }
+
+.cart-product-type {
+    color: #E4C59E;
+}
+
+.cart-product-quantity {
+    display: flex;
+    flex-direction: column;
+}
+
+    .cart-product-quantity span {
+        margin: 0 0 6px 0;
+        color: #C7D9D2;
+    }
 
 .cart-product-price {
     font-weight: 600;
     text-align: right;
+    color: #FFFFFF;
 }
 
-.btn-delete {
+.cart-product-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    font-weight: 800;
+}
+
+.cart-product-items{
+    color:#FFFFFF;
+}
+
+.quantity-input {
+    max-width: 70px;
+}
+
+.delete-button {
     background: none;
     border: none;
-    padding: 0px;
+    padding: 0;
     color: red;
     font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
-    .btn-delete:hover {
-        text-decoration: underline;
-    }
+h3 {
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: center;
+}
 
-.input-quantity {
-    width: 70px;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+input[type="number"]{
+    border:none;
+    outline:none;
+}
+
+
+@media (min-width: 760px) {
+    .cart-product-image {
+        min-width: 120px;
+        max-width: 120px;
+        min-height: 150px;
+        max-height: 150px;
+    }
 }
