@@ -1,30 +1,134 @@
-﻿﻿.media-img {
-    max-height: 500px;
-    max-width: 500px;
-    border-radius: 6px;
-    margin: 0 10px 10px 10px;
+﻿.specific-product-container {
+    display: flex;
+    padding: 20px;
+    background-color: #331517;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.media-img-wrapper {
-    max-width: 500px;
-    max-height: 500px;
-    text-align: center;
+.specific-product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 350px;
+    max-height: 350px;
 }
 
-@media (max-width: 1023.98px) {
-    .media {
-        flex-direction: column;
-    }
-
-    .media-img {
-        max-width: 300px;
-    }
-
-    .media-img-wrapper {
-        width: 100%;
-        height: auto;
-    }
+.specific-product-image img {
+       height:100%;
+       width:100%;
 }
-.original-price {
+
+.specific-product-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+}
+
+    .specific-product-details h2 {
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: #AF2260;
+    }
+
+    .specific-product-details p {
+        margin-bottom: 20px;
+        text-align:justify;
+        color: #C7D9D2;
+        line-height: 1.6;
+    }
+
+.specific-product-variant {
+    display: flex;
+    align-items: center;
+    margin: 0 0 20px 0;
+}
+
+.specific-product-variant-selector select {
+    padding: 10px;
+    background-color: #99ADBF;
+    font-size: 16px;
+}
+
+.specific-product-pricing {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 20px;
+}
+
+.specific-product-original-price {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
     text-decoration: line-through;
+    color: #E4C59E;
+}
+
+.specific-product-price {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #dd2827;
+}
+
+.specific-product-info{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+.specific-product-button {
+    display: flex;
+    align-items: flex-end;
+}
+
+.specific-product-buy-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #F28F16
+}
+
+    .specific-product-buy-button span {
+        color: #15304B;
+        font-weight: bold;
+    }
+
+@media (max-width: 768px) {
+    .specific-product-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .specific-product-image img {
+        max-width: 100%;
+        max-height: 300px;
+    }
+
+    .specific-product-details {
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .specific-product-type {
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .specific-product-buy-button {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .specific-product-image {
+        min-width: 250px;
+        max-width: 250px;
+        margin:0;
+    }
+
 }

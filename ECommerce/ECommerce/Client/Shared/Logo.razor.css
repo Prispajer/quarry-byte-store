@@ -47,3 +47,15 @@
         display: none;
     }
 }
+
+@media (max-width:400px) {
+    .logo-name {
+        font-size: 20px;
+    }
+
+    .logo-image {
+        max-width: 40px;
+        min-width: 40px;
+    }
+
+}
