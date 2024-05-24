@@ -1,7 +1,7 @@
-﻿@inject INavigationService NavigationService
+﻿@inject IModalService ModalService
 
 <div class="logo-container">
-    @if (!NavigationService.NavState)
+    @if (!ModalService.SidebarModalState)
     {
         <button class="nav-hamburger" @onclick="OpenNav">
             <span class="oi oi-menu"></span>
@@ -14,16 +14,17 @@
 @code {
     private void OpenNav()
     {
-        NavigationService.ChangeNavState(true);
+        Console.WriteLine(ModalService.SidebarModalState);
+        ModalService.ToggleSidebarModalState(true);
     }
 
     protected override void OnInitialized()
     {
-        NavigationService.NavStateChanged += StateHasChanged;
+        ModalService.ModalStateChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
-        NavigationService.NavStateChanged -= StateHasChanged;
+        ModalService.ModalStateChanged -= StateHasChanged;
     }
 }

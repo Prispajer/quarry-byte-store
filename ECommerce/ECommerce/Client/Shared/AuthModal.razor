@@ -1,0 +1,48 @@
+﻿@inject IModalService ModalService
+
+<div class="auth-modal @modalRender">
+    <div class="auth-modal-content ">
+        <span class="auth-close" @onclick="CloseModal">&times;</span>
+        <div class="auth-modal-body">
+            <div class="auth-button-container login-button">
+                <button class="auth-button" @onclick="RedirectToRegister">Register</button>
+            </div>
+            <div class="auth-button-container register-button">
+                <button class="auth-button" @onclick="RedirectToLogin">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private string modalRender => ModalService.AuthModalState ? "" : "auth-close-window";
+
+
+    private void CloseModal()
+    {
+        ModalService.ToggleAuthModalState(false);
+    }
+
+    private void RedirectToLogin()
+    {
+        ModalService.ToggleAuthModalState(false);
+        ModalService.RedirectToLogin();
+    }
+
+    private void RedirectToRegister()
+    {
+        ModalService.ToggleAuthModalState(false);
+        ModalService.RedirectToRegister();
+    }
+
+    protected override void OnInitialized()
+    {
+        ModalService.ModalStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ModalService.ModalStateChanged -= StateHasChanged;
+    }
+}

@@ -1,0 +1,88 @@
+﻿.auth-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-modal-content {
+    position: relative;
+    min-width: 200px;
+    max-width: 400px;
+    width: 80%;
+    margin: auto; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-out;
+    background-color: #A62B0F;
+    display: flex; 
+    flex-direction: column; 
+}
+
+
+.auth-close {
+    position: absolute;
+    top: -4px;
+    right: 16px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #0E2D40;
+}
+
+.auth-close-window{
+    display:none;
+}
+
+.auth-modal-body {
+    padding: 20px;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    border-radius: 5px;
+    background-color: #048C34;
+    color: #FFFFFF;
+}
+
+    .auth-button:hover {
+        background-color: #45a049;
+    }
+
+.auth-button-container ::deep a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+
+.auth-button-container .register-button {
+    margin-top: 10px;
+}
+
+.auth-button-container h2 {
+    margin-bottom: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

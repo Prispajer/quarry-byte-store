@@ -1,10 +1,11 @@
 ﻿@inject ICartService CartService
 @inject ISyncLocalStorageService LocalStorage
+@inject IModalService ModalService
 @implements IDisposable
 
 <div class="icons-container">
     <button class="icon-option icon-toggle">
-        <i class="oi oi-person"></i>
+        <i class="oi oi-person" @onclick=OpenModal></i>
     </button>
     <a href="cart" class="icon-option">
         <img src="/cart.png" class="oi" />
@@ -31,11 +32,18 @@
 
     protected override void OnInitialized()
     {
+        ModalService.ModalStateChanged += StateHasChanged;
         CartService.OnChange += StateHasChanged;
     }
 
     public void Dispose()
     {
+        ModalService.ModalStateChanged += StateHasChanged;
         CartService.OnChange -= StateHasChanged;
+    }
+
+    private void OpenModal()
+    {
+        ModalService.ToggleAuthModalState(true);
     }
 }

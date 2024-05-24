@@ -1,16 +1,16 @@
 ﻿@inject ICategoryService CategoryService
-@inject INavigationService NavigationService
+@inject IModalService ModalService
 
 <div class="nav @navRender">
     <div class="nav-logo">
-        <Logo  />
+        <Logo />
         <button @onclick="CloseNav" class="close-button">
             <span class="oi oi-x" aria-hidden="true"></span>
         </button>
     </div>
     <div class="nav-item">
         <NavLink @onclick="CloseNav" class="nav-link" href="" Match="NavLinkMatch.All">
-           Home
+            Home
         </NavLink>
     </div>
 
@@ -25,21 +25,21 @@
 </div>
 
 @code {
-    private string navRender => NavigationService.NavState ? "nav-mobile" : "";
+    private string navRender => ModalService.SidebarModalState ? "nav-mobile" : "";
 
     private void CloseNav()
     {
-        NavigationService.ChangeNavState(false);
+        ModalService.ToggleSidebarModalState(false);
     }
 
     protected override async Task OnInitializedAsync()
     {
         await CategoryService.GetCategories();
-        NavigationService.NavStateChanged += StateHasChanged;
+        ModalService.ModalStateChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
-        NavigationService.NavStateChanged -= StateHasChanged;
+        ModalService.ModalStateChanged -= StateHasChanged;
     }
 }

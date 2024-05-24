@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@inject INavigationService NavigationService
+@inject IModalService ModalService
 
 <div class="page">
     <main>
@@ -8,6 +8,7 @@
                 <Logo />
                 <Search />
                 <CartCounter />
+                <AuthModal/>
             </div>
         </header>
         <nav class="nav-container @navRender">
@@ -24,5 +25,5 @@
 </div>
 
 @code {
-    private string navRender => NavigationService.NavState ? "nav-mobile" : "";
+    private string navRender => ModalService.SidebarModalState ? "nav-mobile" : "";
 }
