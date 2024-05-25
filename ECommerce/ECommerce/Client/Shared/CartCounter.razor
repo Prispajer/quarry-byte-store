@@ -5,14 +5,14 @@
 
 <div class="icons-container">
     <button class="icon-option icon-toggle">
-        <i class="oi oi-person" @onclick=OpenModal></i>
+        <i class="oi oi-person" @onclick="() => ModalService.ToggleAuthModalState(true)"></i>
     </button>
     <a href="cart" class="icon-option">
         <img src="/cart.png" class="oi" />
         <span class="cart-counter">@GetCartItemsCount()</span>
     </a>
     <button class="icon-option icon-toggle">
-        <i class="oi oi-magnifying-glass"></i>
+        <i class="oi oi-magnifying-glass" @onclick="() => ModalService.ToggleSearchModalState(true)"></i>
     </button>
     <a href="login" class="auth-option header-hover">
         <span>Zaloguj</span>
@@ -42,8 +42,4 @@
         CartService.OnChange -= StateHasChanged;
     }
 
-    private void OpenModal()
-    {
-        ModalService.ToggleAuthModalState(true);
-    }
 }
