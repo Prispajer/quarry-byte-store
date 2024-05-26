@@ -102,5 +102,90 @@
         {
             return await _context.Products.Where(p => p.Title.ToLower().Contains(searchText.ToLower()) || p.Description.ToLower().Contains(searchText.ToLower())).ToListAsync();
         }
+
+        public async Task<ServiceResponse<Product>> AddProductAsync(string title, string description, string imageUrl, int categoryId)
+        {
+            var category = await _context.Categories.Where(p => p.Id == categoryId).SingleOrDefaultAsync();
+
+            if (category == null)
+            {
+                return new ServiceResponse<Product>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "No Category found for given categoryId"
+                };
+            }
+
+            var product = new Product()
+            {
+                Title = title,
+                Description = description,
+                ImageUrl = imageUrl,
+
+                Category = category,
+                CategoryId = categoryId
+            };
+
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return new ServiceResponse<Product>
+            {
+                Data = product,
+                Success = true,
+                Message = "Product added successfully"
+            };
+        }
+
+        public async Task<ServiceResponse<Product>> EditProductAsync(int id, string? title, string? description, string? imageUrl)
+        {
+            var product = await _context.Products.Where(p => p.Id == id).SingleOrDefaultAsync();
+            if (product == null)
+            {
+                return new ServiceResponse<Product>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "No Product found for given Id"
+                };
+            }
+
+            _context.Products.Update(product);
+            product.Title = title ?? product.Title;
+            product.Description = description ?? product.Description;
+            product.ImageUrl = imageUrl ?? product.ImageUrl;
+            _context.SaveChanges();
+
+            return new ServiceResponse<Product>
+            {
+                Data = product,
+                Success = true,
+                Message = "Product updated successfully"
+            };
+        }
+
+        public async Task<ServiceResponse<Product>> DeleteProductAsync(int id)
+        {
+            var product = await _context.Products.Where(p => p.Id == id).SingleOrDefaultAsync();
+            if (product == null)
+            {
+                return new ServiceResponse<Product>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "No Product found for given Id"
+                };
+            }
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+
+            return new ServiceResponse<Product>
+            {
+                Data = product,
+                Success = true,
+                Message = "Product removed successfully"
+            };
+        }
     }
 }

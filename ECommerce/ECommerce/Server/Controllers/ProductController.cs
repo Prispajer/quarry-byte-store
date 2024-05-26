@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.Shared;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Server.Controllers
 {
@@ -17,9 +19,6 @@ namespace ECommerce.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
         {
-            //return Ok(Products);
-
-
             var result = await _productService.GetProductsAsync();
             return Ok(result);
         }
@@ -50,6 +49,42 @@ namespace ECommerce.Server.Controllers
         {
             var result = await _productService.GetProductSearchSuggestions(searchText);
             return Ok(result);
+        }
+
+        [HttpPost("add")]
+        [Authorize(Policy = "IsAnAdmin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(string title, string description, string imageUrl, int categoryId)
+        {
+            var result = await _productService.AddProductAsync(title, description, imageUrl, categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPatch("edit")]
+        [Authorize(Policy = "IsAnAdmin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(int id, string? title, string? description, string? imageUrl)
+        {
+            var result = await _productService.EditProductAsync(id, title, description, imageUrl);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpDelete("delete")]
+        [Authorize(Policy = "IsAnAdmin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> DeleteProduct(int id)
+        {
+            var result = await _productService.DeleteProductAsync(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

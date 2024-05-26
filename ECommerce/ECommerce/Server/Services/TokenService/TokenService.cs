@@ -8,11 +8,9 @@ namespace ECommerce.Server.Services.TokenService
     public class TokenService: ITokenService
     {
         private readonly IConfiguration _configuration;
-        private readonly DataContext _context;
 
-        public TokenService(IConfiguration configuration, DataContext context)
+        public TokenService(IConfiguration configuration)
         {
-            _context = context;
             _configuration = configuration;
         }
 
@@ -27,7 +25,9 @@ namespace ECommerce.Server.Services.TokenService
                 audience: jwtSettings["Audience"],
                 claims: new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
                 },
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signinCredentials
