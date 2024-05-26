@@ -3,7 +3,7 @@
 <div class="logo-container">
     @if (!ModalService.SidebarModalState)
     {
-        <button class="nav-hamburger" @onclick="OpenNav">
+        <button class="nav-hamburger" @onclick="() => ModalService.ToggleSidebarModalState(true)">
             <span class="oi oi-menu"></span>
         </button>
     }
@@ -12,12 +12,6 @@
 </div>
 
 @code {
-    private void OpenNav()
-    {
-        Console.WriteLine(ModalService.SidebarModalState);
-        ModalService.ToggleSidebarModalState(true);
-    }
-
     protected override void OnInitialized()
     {
         ModalService.ModalStateChanged += StateHasChanged;

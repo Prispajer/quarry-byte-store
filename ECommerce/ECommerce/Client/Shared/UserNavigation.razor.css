@@ -2,17 +2,17 @@
     display:flex;
     align-items:center;
     flex-grow:0;
-    margin: 0 0 0 20px;
 }
 
 .icon-option {
     display: flex;
-    align-items:center;
+    align-items: center;
+    justify-content:center;
     text-decoration: none;
     color: #FFFFFF;
-    padding:0 10px;
-    border:none;
-    background:transparent;
+    padding: 0 6px;
+    border: none;
+    background: transparent;
 }
 
 .icon-option:nth-child(2) {
@@ -30,7 +30,7 @@
     background-color: #E00061;
     position: absolute;
     right: 6px;
-    bottom: -8px;
+    bottom: -4px;
     text-decoration: none;
 }
 
@@ -79,5 +79,17 @@ img{
 
     .icon-toggle {
         display: none;
+    }
+
+
+}
+
+@media (min-width: 400px){
+    .icons-container {
+        margin: 0 0 0 20px;
+    }
+
+    .icon-option {
+        padding: 0 10px;
     }
 }

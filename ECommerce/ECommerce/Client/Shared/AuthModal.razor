@@ -2,7 +2,7 @@
 
 <div class="auth-modal @modalRender">
     <div class="auth-modal-content ">
-        <span class="auth-close" @onclick="CloseModal">&times;</span>
+        <span class="auth-close-button" @onclick="()=> ModalService.ToggleAuthModalState(false)">&times;</span>
         <div class="auth-modal-body">
             <div class="auth-button-container login-button">
                 <button class="auth-button" @onclick="RedirectToRegister">Register</button>
@@ -17,12 +17,6 @@
 @code {
 
     private string modalRender => ModalService.AuthModalState ? "" : "auth-close-window";
-
-
-    private void CloseModal()
-    {
-        ModalService.ToggleAuthModalState(false);
-    }
 
     private void RedirectToLogin()
     {

@@ -1,0 +1,104 @@
+﻿@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+@inject IModalService ModalService
+@inject ICartService CartService
+
+<div class="search-modal @modalRender">
+    <div class="search-modal-input">
+    <button class="search-button" @onclick="SearchProducts">
+        <span class="oi oi-magnifying-glass"></span>
+    </button>
+    <input @bind-value="searchText"
+           @bind-value:event="oninput"
+           type="search"
+           list="products"
+           @onkeyup="HandleSearch"
+           class="search-input"
+           placeholder="Szukaj gry, książki czy e-booki"
+           @ref="searchInput" />
+    <datalist id="products">
+        @foreach (var suggestion in suggestions)
+        {
+            <option>@suggestion</option>
+        }
+    </datalist>
+    <button class="close-button" @onclick="() => ModalService.ToggleSearchModalState(false)">
+        <span class="oi oi-x"></span>
+    </button>
+    </div>
+    <div class="search-modal-results">
+        @foreach (var product in ProductService.Products)
+        {
+            <div class="search-modal-product" @onclick="()=> GoToProduct(product.Id)">
+                <div class="search-modal-image">
+                    <a href="/product/@product.Id">
+                        <img src="@product.ImageUrl" alt="@product.Title" />
+                    </a>
+                </div>
+                <div class="search-modal-details">
+                    <a href="/product/@product.Id" class="search-modal-title">@product.Title</a>
+                    <div class="search-modal-price">
+                        @GetPriceText(product)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string searchText = string.Empty;
+    private string modalRender => ModalService.SearchModalState ? "" : "search-close-window";
+    private List<string> suggestions = new List<string>();
+    protected ElementReference searchInput;
+
+    public void SearchProducts()
+    {
+        NavigationManager.NavigateTo($"search/{searchText}");
+    }
+
+    public async Task HandleSearch(KeyboardEventArgs args)
+    {
+        if (args.Key == null || args.Key.Equals("Enter"))
+        {
+            SearchProducts();
+        }
+        else if (searchText.Length > 1)
+        {
+            suggestions = await ProductService.GetProductSearchSuggestions(searchText);
+        }
+    }
+
+    private string GetPriceText(Product product)
+    {
+        var variants = product.Variants;
+        if (variants.Count == 0)
+        {
+            return string.Empty;
+        }
+        else if (variants.Count == 1)
+        {
+            return $"${variants[0].Price}";
+        }
+        decimal minPrice = variants.Min(v => v.Price);
+        return $"Starting at ${minPrice}";
+    }
+
+
+    private void GoToProduct(int productId)
+    {
+        ModalService.ToggleSearchModalState(false);
+        NavigationManager.NavigateTo($"/product/{productId}");
+    }
+
+    protected override void OnInitialized()
+    {
+        ProductService.ProductsChanged += StateHasChanged;
+        ModalService.ModalStateChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ModalService.ModalStateChanged -= StateHasChanged;
+    }
+}

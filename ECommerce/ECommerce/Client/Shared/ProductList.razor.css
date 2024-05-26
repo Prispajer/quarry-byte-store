@@ -7,6 +7,7 @@
 .product-card {
     display: flex;
     background-color: #331517;
+    cursor:pointer;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -26,7 +27,6 @@
     display: flex;
     flex-direction: column;
     padding: 5px 10px;
-    cursor: default;
 }
 
 .product-title {

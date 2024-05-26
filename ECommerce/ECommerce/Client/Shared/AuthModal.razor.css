@@ -27,18 +27,13 @@
     flex-direction: column; 
 }
 
-
-.auth-close {
+.auth-close-button {
     position: absolute;
     top: -4px;
     right: 16px;
     font-size: 40px;
     cursor: pointer;
-    color: #0E2D40;
-}
-
-.auth-close-window{
-    display:none;
+    color: #FFFFFF;
 }
 
 .auth-modal-body {
@@ -53,8 +48,9 @@
     transition: background-color 0.3s ease;
     border: none;
     border-radius: 5px;
-    background-color: #048C34;
-    color: #FFFFFF;
+    background-color: #F28F16;
+    color: #0E2D40;
+    font-weight:bold;
 }
 
     .auth-button:hover {
@@ -73,6 +69,16 @@
 
 .auth-button-container h2 {
     margin-bottom: 20px;
+}
+
+.auth-close-window {
+    display: none;
+}
+
+@media(min-width:760px){
+    .auth-modal {
+       display:none;
+    }
 }
 
 @keyframes fadeIn {

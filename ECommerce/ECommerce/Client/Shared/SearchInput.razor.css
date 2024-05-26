@@ -20,22 +20,8 @@
     outline: none;
 }
 
-.search-mobile{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100vw;
-
-}
-
 .search-input::placeholder {
     color: #D4D7DE;
-}
-
-.close-button {
-    margin:0 0 6px 0;
-    background-color: transparent;
-    border: none;
 }
 
 @media (min-width:768px) {
@@ -48,9 +34,5 @@
         padding: 0 10px;
         background-color: #A62B0F;
         border: 1px solid #D9D9DB;
-    }
-
-    .close-button {
-        display:none;
     }
 }

@@ -2,7 +2,7 @@
 @inject IProductService ProductService
 @inject IModalService ModalService
 
-<div class="search-container @mobileSearchbar">
+<div class="search-container">
     <button class="search-button" @onclick="SearchProducts">
             <span class="oi oi-magnifying-glass"></span>
     </button>
@@ -20,14 +20,10 @@
             <option>@suggestion</option>
         }
     </datalist>
-    <button class="close-button" @onclick="() => ModalService.ToggleSearchModalState(false)">
-        <span class="oi oi-x"></span>
-    </button>
 </div>
 
 @code {
     private string searchText = string.Empty;
-    private string mobileSearchbar => ModalService.SearchModalState ? "search-mobile" : "";
     private List<string> suggestions = new List<string>();
     protected ElementReference searchInput;
 
@@ -50,11 +46,12 @@
 
     protected override void OnInitialized()
     {
+        ProductService.ProductsChanged += StateHasChanged;
         ModalService.ModalStateChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
-        ModalService.ModalStateChanged += StateHasChanged;
+        ModalService.ModalStateChanged -= StateHasChanged;
     }
 }

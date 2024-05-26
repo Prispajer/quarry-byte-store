@@ -1,0 +1,25 @@
+﻿@page "/register"
+
+<PageTitle>Register</PageTitle>
+
+<div class="register-container">
+    <h3 class="register-title">Create account</h3>
+    <form>
+        <div class="register-input">
+            <label for="email">Email address</label>
+            <input type="email" class="register-field" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="register-input">
+            <label for="password">Password</label>
+            <input type="password" class="register-field" id="password" placeholder="Enter Password">
+        </div>
+        <div class="register-input">
+            <label for="password">Repeat password</label>
+            <input type="password" class="register-field" id="repeat-password" placeholder="Repeat password">
+        </div>
+        <button type="submit" class="register-button">Submit</button>
+    </form>
+</div>
+
+@code {
+}

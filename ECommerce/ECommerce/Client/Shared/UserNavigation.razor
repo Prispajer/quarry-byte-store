@@ -38,7 +38,7 @@
 
     public void Dispose()
     {
-        ModalService.ModalStateChanged += StateHasChanged;
+        ModalService.ModalStateChanged -= StateHasChanged;
         CartService.OnChange -= StateHasChanged;
     }
 

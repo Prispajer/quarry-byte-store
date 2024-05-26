@@ -1,4 +1,5 @@
-﻿@inject IProductService ProductService
+﻿@inject NavigationManager NavigationManager
+@inject IProductService ProductService
 @implements IDisposable
 
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
@@ -12,14 +13,12 @@ else
     <div class="product-list">
         @foreach (var product in ProductService.Products)
         {
-            <div class="product-card">
+            <div class="product-card" @onclick="()=> GoToProduct(product.Id)">
                 <div class="product-image">
-                    <a href="/product/@product.Id">
-                        <img src="@product.ImageUrl" alt="@product.Title" />
-                    </a>
+                    <img src="@product.ImageUrl" alt="@product.Title" />
                 </div>
                 <div class="product-details">
-                    <a href="/product/@product.Id" class="product-title">@product.Title</a>
+                    <span class="product-title">@product.Title</span>
                     <p class="product-description">@product.Description</p>
                     <div class="product-price">
                         @GetPriceText(product)
@@ -31,17 +30,11 @@ else
 }
 
 @code {
-    //Called after the component is initialized - notifies the component that its state has changed when applicable
-    protected override void OnInitialized()
+    private void GoToProduct(int productId)
     {
-        ProductService.ProductsChanged += StateHasChanged;
+        NavigationManager.NavigateTo($"/product/{productId}");
     }
 
-    //Resetting of StateHasChanged method
-    public void Dispose()
-    {
-        ProductService.ProductsChanged -= StateHasChanged;
-    }
 
     private string GetPriceText(Product product)
     {
@@ -56,5 +49,15 @@ else
         }
         decimal minPrice = variants.Min(v => v.Price);
         return $"Starting at ${minPrice}";
+    }
+
+    protected override void OnInitialized()
+    {
+        ProductService.ProductsChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ProductService.ProductsChanged -= StateHasChanged;
     }
 }
