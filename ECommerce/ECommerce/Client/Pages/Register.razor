@@ -1,25 +1,54 @@
-﻿@page "/register"
+﻿@page "/user/register"
+@inject IUserService UserService
+@inject NavigationManager Navigation
 
 <PageTitle>Register</PageTitle>
 
-<div class="register-container">
-    <h3 class="register-title">Create account</h3>
-    <form>
+<EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+    <div class="register-container">
+        <h3 class="register-title">Create account</h3>
         <div class="register-input">
             <label for="email">Email address</label>
-            <input type="email" class="register-field" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <input @bind="registerModel.Email" type="email" class="register-field" id="email" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
         <div class="register-input">
             <label for="password">Password</label>
-            <input type="password" class="register-field" id="password" placeholder="Enter Password">
+            <input @bind="registerModel.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
         </div>
         <div class="register-input">
-            <label for="password">Repeat password</label>
-            <input type="password" class="register-field" id="repeat-password" placeholder="Repeat password">
+            <label for="repeat-password">Repeat password</label>
+            <input @bind="registerModel.RepeatPassword" type="password" class="register-field" id="repeat-password" placeholder="Repeat password">
+        </div>
+        <div class="register-input">
+            <label for="name">Name</label>
+            <input @bind="registerModel.Name" type="text" class="register-field" id="name" placeholder="Enter name">
         </div>
         <button type="submit" class="register-button">Submit</button>
-    </form>
-</div>
+    </div>
+</EditForm>
 
 @code {
+    private RegisterModel registerModel = new RegisterModel();
+
+    private async Task HandleRegister()
+    {
+        var response = await UserService.RegisterAsync(registerModel.Email, registerModel.Password, registerModel.Name, registerModel.IsAdmin);
+        if (response.Success)
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            // Display error message
+        }
+    }
+
+    public class RegisterModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string RepeatPassword { get; set; }
+        public string Name { get; set; }
+        public bool IsAdmin { get; set; }
+    }
 }

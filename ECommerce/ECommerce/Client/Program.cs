@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ECommerce.Client.Services.CartService;
 using ECommerce.Client.Services.ModalService;
+using ECommerce.Client.Services.UserService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -21,6 +22,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 //registered CartService
 builder.Services.AddScoped<ICartService, CartService>();
+//registered ModalService
 builder.Services.AddScoped<IModalService, ModalService>();
+//registered UserService
+builder.Services.AddScoped<IUserService, UserService>();
 
 await builder.Build().RunAsync();

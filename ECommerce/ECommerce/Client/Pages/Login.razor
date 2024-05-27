@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/user/login"
 
 <PageTitle>Login</PageTitle>
 
@@ -18,5 +18,6 @@
 </div>
 
 @code {
-   
+    [SupplyParameterFromQuery]
+    public User LoginModel { get; set; } 
 }
