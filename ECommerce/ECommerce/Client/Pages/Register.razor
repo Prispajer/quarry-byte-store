@@ -9,15 +9,11 @@
         <h3 class="register-title">Create account</h3>
         <div class="register-input">
             <label for="email">Email address</label>
-            <input @bind="registerModel.Email" type="email" class="register-field" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <input @bind="registerModel.Email" type="email" class="register-field" id="email" placeholder="Enter email">
         </div>
         <div class="register-input">
             <label for="password">Password</label>
             <input @bind="registerModel.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
-        </div>
-        <div class="register-input">
-            <label for="repeat-password">Repeat password</label>
-            <input @bind="registerModel.RepeatPassword" type="password" class="register-field" id="repeat-password" placeholder="Repeat password">
         </div>
         <div class="register-input">
             <label for="name">Name</label>
@@ -27,19 +23,25 @@
     </div>
 </EditForm>
 
+
 @code {
     private RegisterModel registerModel = new RegisterModel();
 
     private async Task HandleRegister()
     {
-        var response = await UserService.RegisterAsync(registerModel.Email, registerModel.Password, registerModel.Name, registerModel.IsAdmin);
+
+        var request = new UserRegistrationRequest
+            {
+                Email = registerModel.Email,
+                Password = registerModel.Password,
+                Name = registerModel.Name,
+                IsAdmin = registerModel.IsAdmin
+            };
+
+        var response = await UserService.RegisterAsync(request);
         if (response.Success)
         {
-            Navigation.NavigateTo("/login");
-        }
-        else
-        {
-            // Display error message
+            Navigation.NavigateTo("/");
         }
     }
 

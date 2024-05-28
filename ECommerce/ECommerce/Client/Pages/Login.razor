@@ -1,23 +1,48 @@
 ﻿@page "/user/login"
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
 
 <PageTitle>Login</PageTitle>
 
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
 <div class="login-container">
     <h3 class="login-title">Log in to Your Account</h3>
     <form>
         <div class="login-input">
             <label for="email">Email address</label>
-            <input type="email" class="login-field" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <input @bind="loginModel.Email" type="email" class="login-field" id="email"  placeholder="Enter email">
         </div>
         <div class="login-input">
             <label for="password">Password</label>
-            <input type="password" class="login-field" id="password" placeholder="Enter Password">
+                <input @bind="loginModel.Password" type="password" class="login-field" id="password" placeholder="Enter Password">
         </div>
         <button type="submit" class="login-button">Submit</button>
     </form>
 </div>
+</EditForm>
 
 @code {
-    [SupplyParameterFromQuery]
-    public User LoginModel { get; set; } 
+    private LoginModel loginModel = new LoginModel();
+
+    private async Task HandleLogin()
+    {
+        var request = new UserLoginRequest
+            {
+                Email = loginModel.Email,
+                Password = loginModel.Password
+            };
+
+        var response = await UserService.LoginAsync(request);
+        if (response.Success)
+        {
+             Navigation.NavigateTo("/");
+        }
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
 }

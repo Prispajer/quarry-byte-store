@@ -14,15 +14,15 @@ namespace ECommerce.Client.Services.UserService
             _http = http;
         }
 
-        public async Task<ServiceResponse<User>> LoginAsync(string email, string password)
+        public async Task<ServiceResponse<User>> LoginAsync(UserLoginRequest request)
         {
-            var response = await _http.GetFromJsonAsync<ServiceResponse<User>>($"api/user/login?email={email}&password={password}");
+            var response = await _http.GetFromJsonAsync<ServiceResponse<User>>($"api/user/login?email={request.Email}&password={request.Password}");
             return response;
         }
 
-        public async Task<ServiceResponse<User>> RegisterAsync(string email, string password, string name, bool isAdmin)
+        public async Task<ServiceResponse<User>> RegisterAsync(UserRegistrationRequest request)
         {
-            var response = await _http.PostAsJsonAsync("api/user/register", new { email, password, name, isAdmin });
+            var response = await _http.PostAsJsonAsync("api/user/register", request);
             return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
         }
 
@@ -37,5 +37,19 @@ namespace ECommerce.Client.Services.UserService
             var response = await _http.PatchAsync($"api/user/forgotpassword?email={email}&newPassword={newPassword}", null);
             return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
         }
+    }
+
+    public class UserRegistrationRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public bool IsAdmin { get; set; }
+    }
+
+    public class UserLoginRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

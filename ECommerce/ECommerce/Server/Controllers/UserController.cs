@@ -20,11 +20,10 @@ namespace ECommerce.Server.Controllers
             _authorizationService = authorizationService;
         }
 
-
         [HttpGet("login")]
-        public async Task<ActionResult<string>> GetUserByEmailAndPassword(string email, string password)
+        public async Task<ActionResult<string>> GetUserByEmailAndPassword(UserLoginRequest request)
         {
-            var result = await _userService.GetUserByEmailAndPasswordAsync(email, password);
+            var result = await _userService.GetUserByEmailAndPasswordAsync(request.Email, request.Password);
             if (!result.Success || result.Data == null)
             {
                 return Unauthorized(string.Empty);
@@ -37,9 +36,9 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(string email, string password, string name, bool isAdmin)
-        {;
-            var result = await _userService.CreateNewUserAsync(email, password, name, isAdmin);
+        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(UserRegistrationRequest request)
+        {
+            var result = await _userService.CreateNewUserAsync(request.Email, request.Password, request.Name, request.IsAdmin);
             if (result.Success)
             {
                 return Ok(result);
@@ -54,7 +53,7 @@ namespace ECommerce.Server.Controllers
         public async Task<ActionResult<ServiceResponse<User>>> ChangePassword(int id, string oldPassword, string newPassword)
         {
             var authorizationResult = await _authorizationService
-            .AuthorizeAsync(User, id, "IsSameUser");
+                .AuthorizeAsync(User, id, "IsSameUser");
             if (!authorizationResult.Succeeded)
             {
                 return Unauthorized(null);
@@ -65,7 +64,7 @@ namespace ECommerce.Server.Controllers
             {
                 return Unauthorized(result);
             }
-            result = await _userService.ChangeUserPasswordAsync(result.Data,  newPassword);
+            result = await _userService.ChangeUserPasswordAsync(result.Data, newPassword);
             if (result.Success)
             {
                 return Ok(result);
@@ -94,5 +93,19 @@ namespace ECommerce.Server.Controllers
                 return Conflict(result);
             }
         }
+    }
+
+    public class UserRegistrationRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public bool IsAdmin { get; set; }
+    }
+
+    public class UserLoginRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
