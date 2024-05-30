@@ -2,24 +2,21 @@
 @inject IUserService UserService
 @inject NavigationManager Navigation
 
-
 <PageTitle>Login</PageTitle>
 
 <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
-<div class="login-container">
-    <h3 class="login-title">Log in to Your Account</h3>
-    <form>
-        <div class="login-input">
-            <label for="email">Email address</label>
-                <input @bind="loginModel.Email" type="email" class="login-field" id="email"  placeholder="Enter email">
-        </div>
-        <div class="login-input">
-            <label for="password">Password</label>
+    <div class="login-container">
+        <h3 class="login-title">Log in to Your Account</h3>
+            <div class="login-input">
+                <label for="email">Email address</label>
+                <input @bind="loginModel.Email" type="email" class="login-field" id="email" placeholder="Enter email">
+            </div>
+            <div class="login-input">
+                <label for="password">Password</label>
                 <input @bind="loginModel.Password" type="password" class="login-field" id="password" placeholder="Enter Password">
-        </div>
-        <button type="submit" class="login-button">Submit</button>
-    </form>
-</div>
+            </div>
+            <button type="submit" class="login-button">Submit</button>
+    </div>
 </EditForm>
 
 @code {
@@ -36,7 +33,10 @@
         var response = await UserService.LoginAsync(request);
         if (response.Success)
         {
-             Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
         }
     }
 

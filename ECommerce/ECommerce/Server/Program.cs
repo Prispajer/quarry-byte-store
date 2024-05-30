@@ -16,6 +16,7 @@ using ECommerce.Server.Services.ProductTypeService;
 using ECommerce.Server.Services.ProductVariantService;
 using ECommerce.Server.Authorization.Handlers;
 using ECommerce.Server.Authorization.Requirements;
+using ECommerce.Server.Services.SessionService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,14 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -95,6 +104,9 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 // The ITokenService interface registered with the TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
+// The ITokenService interface registered with the SessionService
+builder.Services.AddScoped<ISessionService, SessionService>();
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -104,8 +116,11 @@ builder.Services.AddAuthorization(options =>
     policy.Requirements.Add(new IsSameUserRequirement()));
 });
 
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, IsAdminRequirementHandler>();
 builder.Services.AddSingleton<IAuthorizationHandler, IsSameUserRequirementHandler>();
+
 
 var app = builder.Build();
 app.UseSwaggerUI();
@@ -121,6 +136,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSession();
 
 app.UseSwagger();
 app.UseHttpsRedirection();

@@ -1,14 +1,22 @@
 ﻿@inherits LayoutComponentBase
 @inject IModalService ModalService
+@inject ISessionService SessionService
 
 <div class="page">
     <main>
+        <div class="session-info">
+            <h3>Session Information</h3>
+            <p>Username: @session?.Username</p>
+            <p>Session ID: @session?.SessionId</p>
+            <p>Token ID: @session?.TokenId</p>
+            <p>Last Login Time: @session?.LastLoginTime</p>
+        </div>
         <header class="header-container">
             <div class="header-content">
                 <Logo />
                 <SearchInput />
                 <UserNavigation />
-                <AuthModal/>
+                <AuthModal />
             </div>
         </header>
         <nav class="nav-container @navRender">
@@ -27,4 +35,14 @@
 
 @code {
     private string navRender => ModalService.SidebarModalState ? "nav-mobile" : "";
+    private Session? session;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var serviceResponse = await SessionService.GetSessionAsync();
+        if (serviceResponse.Success)
+        {
+            session = serviceResponse.Data;
+        }
+    }
 }
