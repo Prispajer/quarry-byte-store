@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Server.Data
+﻿using ECommerce.Client.Pages;
+
+namespace ECommerce.Server.Data
 {
     public class DataContext : DbContext
     {

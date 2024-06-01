@@ -16,8 +16,21 @@ namespace ECommerce.Client.Services.UserService
 
         public async Task<ServiceResponse<User>> LoginAsync(UserLoginRequest request)
         {
-            var response = await _http.PostAsJsonAsync("api/user/login", request);
-            return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
+                var response = await _http.PostAsJsonAsync("api/user/login", request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
+                    return serviceResponse;
+                }
+                else
+                {
+                    return new ServiceResponse<User>
+                    {
+                        Success = false,
+                        Message = "Could not authenticate user"
+                    };
+                }
         }
 
         public async Task<ServiceResponse<User>> RegisterAsync(UserRegistrationRequest request)

@@ -42,7 +42,12 @@ label {
     color: #0E2D40;
     cursor: pointer;
 }
+.error-message{
+    margin: 2px 0 0 0 ;
+    font-size:16px;
+    color:red;
+}
 
-    .login-button:hover {
-        background-color: #F88C18;
-    }
+.login-button:hover {
+    background-color: #F88C18;
+}

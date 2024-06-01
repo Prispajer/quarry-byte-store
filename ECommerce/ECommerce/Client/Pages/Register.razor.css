@@ -27,6 +27,12 @@
     border-radius: 5px;
 }
 
+.error-message {
+    margin: 2px 0 0 0;
+    font-size: 16px;
+    color: red;
+}
+
 
 label {
     color: #d7d7d7;

@@ -4,6 +4,7 @@
     {
         Task<ServiceResponse<Session>> SetSessionAsync(Session session);
         Task<ServiceResponse<Session>> GetSessionAsync();
+        Task<ServiceResponse<Session>> UpdateSessionAsync(Session session);
         Task<ServiceResponse<Session>> ClearSessionAsync();
     }
 }

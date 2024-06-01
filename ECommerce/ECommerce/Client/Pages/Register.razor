@@ -1,34 +1,45 @@
 ﻿@page "/user/register"
+@using System.ComponentModel.DataAnnotations
 @inject IUserService UserService
 @inject NavigationManager Navigation
 
 <PageTitle>Register</PageTitle>
 
 <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator />
     <div class="register-container">
         <h3 class="register-title">Create account</h3>
         <div class="register-input">
             <label for="email">Email address</label>
             <input @bind="registerModel.Email" type="email" class="register-field" id="email" placeholder="Enter email">
+            <ValidationMessage For="@(()=>registerModel.Email)"/>
         </div>
         <div class="register-input">
             <label for="password">Password</label>
             <input @bind="registerModel.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
+            <ValidationMessage For="@(()=>registerModel.Password)"/>
         </div>
         <div class="register-input">
             <label for="name">Name</label>
             <input @bind="registerModel.Name" type="text" class="register-field" id="name" placeholder="Enter name">
+            <ValidationMessage For="@(()=>registerModel.Name)"/>
         </div>
         <button type="submit" class="register-button">Submit</button>
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="error-message">@error</div>
+        }
     </div>
 </EditForm>
 
 
 @code {
     private RegisterModel registerModel = new RegisterModel();
+    private string error;
 
     private async Task HandleRegister()
     {
+        error = null;
 
         var request = new UserRegistrationRequest
             {
@@ -38,6 +49,19 @@
                 IsAdmin = registerModel.IsAdmin
             };
 
+
+        if (request.Email == registerModel.Email)
+        {
+            error = "Email in use";
+            StateHasChanged();
+        }
+        if(request.Name == registerModel.Name)
+        {
+            error = "Name in use";
+            StateHasChanged();
+
+        }
+
         var response = await UserService.RegisterAsync(request);
         if (response.Success)
         {
@@ -45,11 +69,14 @@
         }
     }
 
-    public class RegisterModel
+    private class RegisterModel
     {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
-        public string RepeatPassword { get; set; }
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         public bool IsAdmin { get; set; }
     }

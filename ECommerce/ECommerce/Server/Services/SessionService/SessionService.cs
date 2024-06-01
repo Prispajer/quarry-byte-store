@@ -13,6 +13,7 @@ namespace ECommerce.Server.Services.SessionService
             _httpContext = httpContext;
         }
 
+
         public async Task<ServiceResponse<Session>> SetSessionAsync(Session session)
         {
             var sessionData = JsonSerializer.Serialize(session);
@@ -27,28 +28,38 @@ namespace ECommerce.Server.Services.SessionService
             return response;
         }
 
+
         public async Task<ServiceResponse<Session>> GetSessionAsync()
         {
             var sessionData = _httpContext.HttpContext.Session.GetString("UserSession");
-            var session = JsonSerializer.Deserialize<Session>(sessionData);
 
-            if (sessionData != null)
-            {
-                return new ServiceResponse<Session>
-                {
-                    Data = session,
-                    Success = true
-                };
-            }
-            else
+            if (string.IsNullOrEmpty(sessionData))
             {
                 return new ServiceResponse<Session>
                 {
                     Data = null,
                     Success = false,
-                    Message = "Session not found"
+                    Message = "Session not found or empty"
                 };
             }
+
+            var session = JsonSerializer.Deserialize<Session>(sessionData);
+
+            if (session == null)
+            {
+                return new ServiceResponse<Session>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "Session is invalid or incomplete"
+                };
+            }
+
+            return new ServiceResponse<Session>
+            {
+                Data = session,
+                Success = true
+            };
         }
 
         public async Task<ServiceResponse<Session>> ClearSessionAsync()
@@ -59,6 +70,20 @@ namespace ECommerce.Server.Services.SessionService
             {
                 Success = true
             };
+        }
+
+        public async Task<ServiceResponse<Session>> UpdateSessionAsync(Session session)
+        {
+            var sessionData = JsonSerializer.Serialize(session);
+            _httpContext.HttpContext.Session.SetString("UserSession", sessionData);
+
+            var response = new ServiceResponse<Session>
+            {
+                Data = session,
+                Success = true
+            };
+
+            return response;
         }
     }
 }

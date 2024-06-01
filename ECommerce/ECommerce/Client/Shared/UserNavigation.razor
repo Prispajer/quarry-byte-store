@@ -1,6 +1,9 @@
 ﻿@inject ICartService CartService
+@inject NavigationManager NavigationManager
 @inject ISyncLocalStorageService LocalStorage
 @inject IModalService ModalService
+@inject ISessionService SessionService
+@inject IAuthService AuthService
 @implements IDisposable
 
 <div class="icons-container">
@@ -14,13 +17,23 @@
     <button class="icon-option icon-toggle">
         <i class="oi oi-magnifying-glass" @onclick="() => ModalService.ToggleSearchModalState(true)"></i>
     </button>
-    <a href="/user/login" class="auth-option header-hover">
-        <span>Zaloguj</span>
-    </a>
-    <span class="vertical-line">|</span>
-    <a href="/user/register" class="auth-option header-hover">
-        <span>Zarejestruj</span>
-    </a>
+    @if (AuthService.GetCurrentSession() != null)
+    {
+        <div class="auth-logged-user">
+            <span class="auth-username header-hover">@AuthService.GetCurrentSession().Username</span>
+            <span class="auth-logout header-hover" @onclick="()=> Logout()">Wyloguj</span>
+        </div>
+    }
+    else
+    {
+        <a href="/user/login" class="auth-option header-hover">
+            <span>Zaloguj</span>
+        </a>
+        <span class="vertical-line">|</span>
+        <a href="/user/register" class="auth-option header-hover">
+            <span>Zarejestruj</span>
+        </a>
+    }
 </div>
 
 @code {
@@ -30,16 +43,23 @@
         return cart != null ? cart.Count : 0;
     }
 
+    private async Task Logout()
+    {
+        AuthService.ClearCurrentSession();
+        NavigationManager.NavigateTo("/", forceLoad: true);
+    }
+
     protected override void OnInitialized()
     {
+        AuthService.OnChange += StateHasChanged;
         ModalService.ModalStateChanged += StateHasChanged;
         CartService.OnChange += StateHasChanged;
     }
 
     public void Dispose()
     {
+        AuthService.OnChange -= StateHasChanged;
         ModalService.ModalStateChanged -= StateHasChanged;
         CartService.OnChange -= StateHasChanged;
     }
-
 }

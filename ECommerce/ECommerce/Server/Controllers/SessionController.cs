@@ -23,17 +23,19 @@ namespace ECommerce.Server.Controllers
             if (!session.Success)
             {
                 return Conflict(session);
-
             }
             return Ok(session);
         }
 
-
-        [HttpDelete("deletesession")]
-        public async Task<ActionResult> ClearSession()
+        [HttpPost("updatesession")]
+        public async Task<ActionResult<ServiceResponse<Session>>> UpdateSession(Session session)
         {
-            await _sessionService.ClearSessionAsync();
-            return NoContent();
+            var updatedSession = await _sessionService.UpdateSessionAsync(session);
+            if (!updatedSession.Success)
+            {
+                return Conflict(updatedSession);
+            }
+            return Ok(updatedSession);
         }
     }
 }

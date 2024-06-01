@@ -2,7 +2,7 @@
 
 namespace ECommerce.Client.Services.CartService
 {
-    
+
     public class CartService : ICartService
     {
         private readonly ILocalStorageService _localStorage;

@@ -100,11 +100,5 @@ namespace ECommerce.Server.Controllers
             return Conflict(result);
         }
 
-        [HttpPost("logout")]
-        public async Task<ActionResult> Logout()
-        {
-            await _sessionService.ClearSessionAsync();
-            return NoContent();
-        }
     }
 }

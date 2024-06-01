@@ -2,7 +2,7 @@
 {
     public interface ISessionService
     {
-        Task<ServiceResponse<Session?>> GetSessionAsync();
-        Task<ServiceResponse<Session?>> ClearSessionAsync();
+        Task<ServiceResponse<Session>> GetSessionAsync();
+        Task<ServiceResponse<Session>> UpdateSessionAsync(Session session);
     }
 }

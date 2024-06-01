@@ -38,12 +38,12 @@ namespace ECommerce.Client.Services.ModalService
 
         public void RedirectToLogin()
         {
-            navigationManager.NavigateTo("/login");
+            navigationManager.NavigateTo("/user/login");
         }
 
         public void RedirectToRegister()
         {
-            navigationManager.NavigateTo("/register");
+            navigationManager.NavigateTo("/user/register");
         }
     }
 }
