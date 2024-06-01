@@ -12,34 +12,33 @@
         <div class="register-input">
             <label for="email">Email address</label>
             <input @bind="registerModel.Email" type="email" class="register-field" id="email" placeholder="Enter email">
-            <ValidationMessage For="@(()=>registerModel.Email)"/>
+            <ValidationMessage For="@(()=>registerModel.Email)" />
         </div>
         <div class="register-input">
             <label for="password">Password</label>
             <input @bind="registerModel.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
-            <ValidationMessage For="@(()=>registerModel.Password)"/>
+            <ValidationMessage For="@(()=>registerModel.Password)" />
         </div>
         <div class="register-input">
             <label for="name">Name</label>
             <input @bind="registerModel.Name" type="text" class="register-field" id="name" placeholder="Enter name">
-            <ValidationMessage For="@(()=>registerModel.Name)"/>
+            <ValidationMessage For="@(()=>registerModel.Name)" />
         </div>
         <button type="submit" class="register-button">Submit</button>
-        @if (!string.IsNullOrEmpty(error))
+        @if (!string.IsNullOrEmpty(message))
         {
-            <div class="error-message">@error</div>
+            <div class="message">@message</div>
         }
     </div>
 </EditForm>
 
-
 @code {
     private RegisterModel registerModel = new RegisterModel();
-    private string error;
+    private string message;
 
     private async Task HandleRegister()
     {
-        error = null;
+        message = null;
 
         var request = new UserRegistrationRequest
             {
@@ -50,23 +49,36 @@
             };
 
 
-        if (request.Email == registerModel.Email)
-        {
-            error = "Email in use";
-            StateHasChanged();
-        }
-        if(request.Name == registerModel.Name)
-        {
-            error = "Name in use";
-            StateHasChanged();
-
-        }
 
         var response = await UserService.RegisterAsync(request);
         if (response.Success)
         {
-            Navigation.NavigateTo("/");
+            message = response.Message;
+
+            if (IsEmailInUse(request.Email))
+            {
+                message = response.Message;
+
+            }
+            if (IsNameInUse(request.Name))
+            {
+                message = response.Message;
+            }
         }
+        else
+        {
+            message = response.Message;
+        }
+    }
+
+    private bool IsEmailInUse(string email)
+    {
+        return email == registerModel.Email;
+    }
+
+    private bool IsNameInUse(string name)
+    {
+        return name == registerModel.Name;
     }
 
     private class RegisterModel
