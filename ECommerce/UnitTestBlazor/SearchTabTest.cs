@@ -5,34 +5,35 @@ using Moq;
 using ECommerce.Client.Services.ProductService;
 using ECommerce.Client.Shared;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.Exchange.WebServices.Data;
+using ECommerce.Client.Services.ModalService;
 
 namespace UnitTestBlazor
 {
-    public class SearchTabTest
+    public class SearchTabTest : TestContext
     {
 
-        [Fact]
-        public async Task HandleSearchShouldFetchSuggestions()
+        
+    [Fact]
+        public void SearchInput_OnKeyUp_CallsHandleSearch()
         {
-            
-            var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Setup(p => p.GetProductSearchSuggestions(It.IsAny<string>()))
-                .ReturnsAsync(new List<string> { "suggestion1", "suggestion2" });
+            var mockProductService = new Mock<IProductService>();
+            var mockModalService = new Mock<IModalService>();
+            var mockNavigationManager = new Mock<NavigationManager>();
 
-            using var ctx = new TestContext();
-            ctx.Services.AddSingleton(productServiceMock.Object);
+            Services.AddSingleton(mockProductService.Object);
+            Services.AddSingleton(mockModalService.Object);
+            Services.AddSingleton(mockNavigationManager.Object);
 
-            var searchComponent = ctx.RenderComponent<Search>();
+            var cut = RenderComponent<SearchInput>();
 
-            var inputElement = searchComponent.Find("input");
-            await inputElement.TriggerEventAsync("oninput", new ChangeEventArgs { Value = "test" });
+            // Act
+            cut.Find("input.search-input").Change("test");
+            cut.Find("input.search-input").KeyUp(new KeyboardEventArgs { Key = "a" });
 
-            
-            await inputElement.TriggerEventAsync("onkeyup", new KeyboardEventArgs { Key = "A" });
-
-            
-            searchComponent.WaitForState(() => searchComponent.Find("datalist").ChildElementCount == 2);
+            // Assert
+            mockProductService.Verify(s => s.GetProductSearchSuggestions(It.IsAny<string>()), Times.Once());
         }
+
     }
 }

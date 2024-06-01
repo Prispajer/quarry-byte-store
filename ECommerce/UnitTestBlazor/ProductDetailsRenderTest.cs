@@ -37,19 +37,23 @@ namespace UnitTestBlazor
 
 
             var expectedMarkup = $@"
-                       <div class=""media"" >
-                               <div class=""media-img-wrapper mr-2"" >
-                               <img class=""media-img"" src=""{product.ImageUrl}"" alt=""{product.Title}"" >
-                               </div>
-                        <div class=""media-body"" >
-                          <h2 class=""mb-0"" >{product.Title}</h2>
-                          <p >{product.Description}</p>
-                          <h4 class=""price"" ></h4>
-                          <button class=""btn btn-primary""  >
-                             <i class=""oi oi-cart"" ></i>&nbsp;&nbsp;&nbsp;Add to Cart
-                          </button>
-                         </div>
-                       </div>";
+                            <div class=""specific-product-container"" >
+                             <div class=""specific-product-image"" >
+                            <img class=""specific-product-img"" src=""https://test.com/test.jpg"" alt=""Test Product"" >
+                            </div>
+                            <div class=""specific-product-details"" >
+                            <div class=""specific-product-info"" >
+                            <h2 >Test Product</h2>
+                            <p >Test Description</p>
+                            <div class=""specific-product-variant"" ></div>
+                            </div>
+                            <div class=""specific-product-button"" >
+                            <button class=""specific-product-buy-button""  >
+                            <span >Add to Cart</span>
+                            </button>
+                            </div>
+                            </div>
+                            </div>";
             cut.MarkupMatches(expectedMarkup);     
         
         
