@@ -37,7 +37,7 @@ The application includes a comprehensive set of features for users to enjoy a se
   ![Game Page](https://drive.usercontent.google.com/download?id=1h9cAXMl8N9pZ_tdMW9gQMiHGz-HRmTCe&export=view&authuser=0)
   
 - **Register Page**  
-  ![Register Page](https://drive.usercontent.google.com/download?id=1WpeeYUdMfhORpAWrHia0jYVzahUlhvQq&export=view&authuser=0)
+  ![Register Page](https://drive.usercontent.google.com/download?id=1BhqVHVjL94z6tuEahRckuEEMr3BWqUPD&export=view&authuser=0)
   
 - **Login Page**  
   ![Login Page](https://drive.usercontent.google.com/download?id=1svyBQgBRdfL_6S9BijvMOOHUHul7TN30&export=view&authuser=0)
