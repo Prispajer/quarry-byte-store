@@ -31,16 +31,16 @@ The application includes a comprehensive set of features for users to enjoy a se
 
 # Application Screenshots and Demo
 - **Home Page**  
-  ![Home Page](https://drive.usercontent.google.com/download?id=1ejrPTno7oWGaG5MHKo7fyWudodrNCxj9&export=view&authuser=0)
+  ![Home Page](https://drive.usercontent.google.com/download?id=1h9cAXMl8N9pZ_tdMW9gQMiHGz-HRmTCe&export=view&authuser=0)
     
 - **Game Page**  
   ![Game Page](https://drive.usercontent.google.com/download?id=1h9cAXMl8N9pZ_tdMW9gQMiHGz-HRmTCe&export=view&authuser=0)
   
 - **Register Page**  
-  ![Register Page](https://drive.usercontent.google.com/download?id=1-X1c_O6ngDeGfqbk-QNnuN8BFYH0Z276&export=view&authuser=0)
+  ![Register Page](https://drive.usercontent.google.com/download?id=1WpeeYUdMfhORpAWrHia0jYVzahUlhvQq&export=view&authuser=0)
   
 - **Login Page**  
-  ![Login Page](https://drive.usercontent.google.com/download?id=1hO-oGJjK9lqUGzHNZ8CWwoaZPsQKxhVm&export=view&authuser=0)
+  ![Login Page](https://drive.usercontent.google.com/download?id=1svyBQgBRdfL_6S9BijvMOOHUHul7TN30&export=view&authuser=0)
 
 - **Demo**
  <div align="center">
