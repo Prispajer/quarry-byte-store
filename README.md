@@ -54,7 +54,7 @@ The application includes a comprehensive set of features for users to enjoy a se
   - Local SQL 
   - REST API
 
-# # Installation Instructions:
+# Installation Instructions:
 1. **Download the project package from GitHub**
    - Download the entire project package from the GitHub repository to your local machine.
 
