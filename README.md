@@ -4,7 +4,7 @@
 3. **Automatyzacja i Digitalizacja Procesów Biznesowych**
 
 <div align="center">
-  <img src="./public/icons/logo.png" alt="Logo" width="300" height="300" style="vertical-align: middle;"/>
+  <img src="./wwwroot/QuarryByteMascot.png" alt="Logo" width="300" height="300" style="vertical-align: middle;"/>
   <h1 style="display: inline; vertical-align: middle;">QuarryByte - Store with Local Database</h1>
 </div>
 
