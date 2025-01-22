@@ -51,7 +51,7 @@ The application includes a comprehensive set of features for users to enjoy a se
   - C#
   - ASP.NET MVC
   - Blazor
-  - Local SQL 
+  - SQL Server 
   - REST API
 
 # Installation Instructions:
