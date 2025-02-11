@@ -1,4 +1,5 @@
-﻿using ECommerce.Shared;
+﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 
 namespace ECommerce.Server.Services.ProductVariantService
 {

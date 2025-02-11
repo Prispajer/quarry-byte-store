@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8ZfBTg9bGf4p3JR6YWuUoKGRIEJNL8vZ6wk0m3agAOspLoJf3KLVdyjRc+Xl5qPvDinl5aaXtmqR/lZIQv0bYw==",
+  "dgSpecHash": "OTFpC3v165gvjqTguI0ZjsNABFOgfw0GuQj1aLmbK2/L+rFQEWqYlbtvlLELvpGLnsdLOgQLTboVOJDarTTjJA==",
   "success": true,
-  "projectFilePath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
+  "projectFilePath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

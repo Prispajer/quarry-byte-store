@@ -3,6 +3,8 @@ using ECommerce.Client.Pages;
 using ECommerce.Client.Services.CartService;
 using ECommerce.Client.Services.ProductService;
 using ECommerce.Shared;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {}
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {}
   },
   "projects": {
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
+        "projectUniqueName": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
         "projectName": "ECommerce.Shared",
-        "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
-        "packagesPath": "C:\\Users\\ingan\\.nuget\\packages\\",
-        "outputPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\obj\\",
+        "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
+        "packagesPath": "C:\\Users\\Adrian\\.nuget\\packages\\",
+        "outputPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ingan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Adrian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -59,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,28 +1,28 @@
-﻿@page "/user/register"
-@using System.ComponentModel.DataAnnotations
+﻿@using ECommerce.Shared.Dto.User
+@page "/user/register"
 @inject IUserService UserService
 @inject NavigationManager Navigation
 
 <PageTitle>Register</PageTitle>
 
-<EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+<EditForm Model="registerUserDto" OnValidSubmit="HandleUserRegister">
     <DataAnnotationsValidator />
     <div class="register-container">
         <h3 class="register-title">Create account</h3>
         <div class="register-input">
             <label for="email">Email address</label>
-            <input @bind="registerModel.Email" type="email" class="register-field" id="email" placeholder="Enter email">
-            <ValidationMessage For="@(()=>registerModel.Email)" />
+            <input @bind="registerUserDto.Email" type="email" class="register-field" id="email" placeholder="Enter email">
+            <ValidationMessage For="@(()=>registerUserDto.Email)" />
         </div>
         <div class="register-input">
             <label for="password">Password</label>
-            <input @bind="registerModel.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
-            <ValidationMessage For="@(()=>registerModel.Password)" />
+            <input @bind="registerUserDto.Password" type="password" class="register-field" id="password" placeholder="Enter Password">
+            <ValidationMessage For="@(()=>registerUserDto.Password)" />
         </div>
         <div class="register-input">
             <label for="name">Name</label>
-            <input @bind="registerModel.Name" type="text" class="register-field" id="name" placeholder="Enter name">
-            <ValidationMessage For="@(()=>registerModel.Name)" />
+            <input @bind="registerUserDto.Name" type="text" class="register-field" id="name" placeholder="Enter name">
+            <ValidationMessage For="@(()=>registerUserDto.Name)" />
         </div>
         <button type="submit" class="register-button">Submit</button>
         @if (!string.IsNullOrEmpty(message))
@@ -33,34 +33,22 @@
 </EditForm>
 
 @code {
-    private RegisterModel registerModel = new RegisterModel();
-    private string message;
+    private RegisterUserDto registerUserDto = new RegisterUserDto();
+    private string message = string.Empty;
 
-    private async Task HandleRegister()
+    private async Task HandleUserRegister()
     {
-        message = null;
-
-        var request = new UserRegistrationRequest
-            {
-                Email = registerModel.Email,
-                Password = registerModel.Password,
-                Name = registerModel.Name,
-                IsAdmin = registerModel.IsAdmin
-            };
-
-
-
-        var response = await UserService.RegisterAsync(request);
+        var response = await UserService.RegisterUserAsync(registerUserDto);
         if (response.Success)
         {
             message = response.Message;
 
-            if (IsEmailInUse(request.Email))
+            if (IsEmailInUse(registerUserDto.Email))
             {
                 message = response.Message;
 
             }
-            if (IsNameInUse(request.Name))
+            if (IsNameInUse(registerUserDto.Name))
             {
                 message = response.Message;
             }
@@ -73,23 +61,11 @@
 
     private bool IsEmailInUse(string email)
     {
-        return email == registerModel.Email;
+        return email == registerUserDto.Email;
     }
 
     private bool IsNameInUse(string name)
     {
-        return name == registerModel.Name;
-    }
-
-    private class RegisterModel
-    {
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email format")]
-        public string Email { get; set; }
-        [Required(ErrorMessage = "Password is required")]
-        public string Password { get; set; }
-        [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
-        public bool IsAdmin { get; set; }
+        return name == registerUserDto.Name;
     }
 }

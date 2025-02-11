@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>68f2a8ba-62ae-45bc-b85b-d419d2cdebbc</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\ECommerce.Client.csproj" />
     <ProjectReference Include="..\Shared\ECommerce.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\ProductRepository\" />
   </ItemGroup>
 
 

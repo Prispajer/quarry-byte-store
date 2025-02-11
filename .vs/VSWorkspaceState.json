@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ECommerce",
+    "\\ECommerce\\ECommerce",
+    "\\ECommerce\\ECommerce\\Server"
   ],
-  "SelectedNode": "\\D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project",
+  "SelectedNode": "\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj",
   "PreviewInSolutionExplorer": false
 }

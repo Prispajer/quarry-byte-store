@@ -1,4 +1,5 @@
-﻿using ECommerce.Shared;
+﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,11 +1,19 @@
-﻿namespace ECommerce.Server.Services.UserService
+﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.User;
+using ECommerce.Shared.Dto.User;
+using ECommerce.Server.Repositories.UserRepository;
+
+namespace ECommerce.Server.Services.UserService
 {
     public class UserService : IUserService
     {
         private readonly DataContext _context;
-        public UserService(DataContext context)
+        private readonly IUserRepository _userRepository;
+        public UserService(DataContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
+
         }
 
         public async Task<ServiceResponse<User>> GetUserByEmailAsync(string email)
@@ -39,50 +47,11 @@
             };
         }
 
-        private async Task<bool> CheckIfUserWithEmailExistsAsync(string email)
+        public async Task<ServiceResponse<User>> RegisterUserAsync(RegisterUserDto registerUserDto)
         {
-            return await _context.Users.AnyAsync(x => x.Email == email);
+            return await _userRepository.CreateNewUserAsync(registerUserDto);
         }
 
-        private async Task<bool> CheckIfUserWithNameExistsAsync(string name)
-        {
-            return await _context.Users.AnyAsync(x => x.Name == name);
-        }
-
-        public async Task<ServiceResponse<User>> CreateNewUserAsync(string email, string password, string name, bool isAdmin)
-        {
-            string passwordHash = BC.HashPassword(password);
-
-            if (await CheckIfUserWithEmailExistsAsync(email))
-            {
-                return new ServiceResponse<User>
-                {
-                    Data = null,
-                    Message = "This email is already used",
-                    Success = false
-                };
-            }
-            if (await CheckIfUserWithNameExistsAsync(name))
-            {
-                return new ServiceResponse<User>
-                {
-                    Data = null,
-                    Message = "This username is already used",
-                    Success = false
-                };
-            }
-            var user = new User { Email = email, PasswordHash = passwordHash, Name = name, IsAdmin = isAdmin };
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            var response = new ServiceResponse<User>
-            {
-                Data = user,
-                Message = "Account created successfully",
-                Success = true
-            };
-
-            return response;
-        }
 
         private async Task<User?> GetUserById(int id)
         {

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj": {}
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj": {}
   },
   "projects": {
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj": {
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj",
+        "projectUniqueName": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj",
         "projectName": "ECommerce.Client",
-        "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj",
-        "packagesPath": "C:\\Users\\ingan\\.nuget\\packages\\",
-        "outputPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\obj\\",
+        "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj",
+        "packagesPath": "C:\\Users\\Adrian\\.nuget\\packages\\",
+        "outputPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ingan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Adrian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -32,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
-                "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj"
+              "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
+                "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj"
               }
             }
           }
@@ -42,12 +38,21 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
               "version": "[6.0.10, )"
@@ -56,6 +61,24 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.10, )"
+            },
+            "Microsoft.NET.ILLink.Analyzers": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )",
+              "autoReferenced": true
             }
           },
           "imports": [
@@ -72,7 +95,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[6.0.11, 6.0.11]"
+              "version": "[6.0.29, 6.0.29]"
             }
           ],
           "frameworkReferences": {
@@ -80,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
@@ -89,21 +112,17 @@
         }
       }
     },
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj": {
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj",
+        "projectUniqueName": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj",
         "projectName": "ECommerce.Server",
-        "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj",
-        "packagesPath": "C:\\Users\\ingan\\.nuget\\packages\\",
-        "outputPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Server\\obj\\",
+        "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Server\\ECommerce.Server.csproj",
+        "packagesPath": "C:\\Users\\Adrian\\.nuget\\packages\\",
+        "outputPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ingan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Adrian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -117,11 +136,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj": {
-                "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj"
+              "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj": {
+                "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Client\\ECommerce.Client.csproj"
               },
-              "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
-                "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj"
+              "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
+                "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj"
               }
             }
           }
@@ -130,12 +149,25 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly.Server": {
               "target": "Package",
               "version": "[6.0.0, )"
@@ -178,25 +210,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
+    "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
+        "projectUniqueName": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
         "projectName": "ECommerce.Shared",
-        "projectPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
-        "packagesPath": "C:\\Users\\ingan\\.nuget\\packages\\",
-        "outputPath": "D:\\AEH\\MGR_SEM2\\App wielowarstwowe\\e-commerce-project\\ECommerce\\ECommerce\\Shared\\obj\\",
+        "projectPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\ECommerce.Shared.csproj",
+        "packagesPath": "C:\\Users\\Adrian\\.nuget\\packages\\",
+        "outputPath": "D:\\Web\\quarry-byte-store\\ECommerce\\ECommerce\\Shared\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ingan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Adrian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -216,6 +244,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -237,7 +270,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
