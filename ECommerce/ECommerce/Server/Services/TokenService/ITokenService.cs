@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Server.Services.TokenService
+﻿using ECommerce.Shared.Models.User;
+
+namespace ECommerce.Server.Services.TokenService
 {
     public interface ITokenService
     {

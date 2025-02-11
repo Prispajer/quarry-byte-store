@@ -1,5 +1,5 @@
-﻿@page "/user/login"
-@using System.ComponentModel.DataAnnotations
+﻿@using ECommerce.Shared.Dto.User
+@page "/user/login"
 @inject IUserService UserService
 @inject NavigationManager NavigationManager
 @inject ISessionService SessionService
@@ -7,72 +7,57 @@
 
 <PageTitle>Login</PageTitle>
 
-<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+<EditForm Model="loginUserDto" OnValidSubmit="HandleUserLogin">
     <DataAnnotationsValidator />
     <div class="login-container">
         <h3 class="login-title">Login to your account</h3>
         <div class="login-input">
             <label for="email">Email Adress</label>
-            <input @bind="loginModel.Email" type="email" class="login-field" id="email" placeholder="Enter email" />
-            <ValidationMessage For="@(() => loginModel.Email)" />
+            <input @bind="loginUserDto.Email" type="email" class="login-field" id="email" placeholder="Enter email" />
+            <ValidationMessage For="@(() => loginUserDto.Email)" />
         </div>
         <div class="login-input">
             <label for="password">Password</label>
-            <input @bind="loginModel.Password" type="password" class="login-field" id="password" placeholder="Enter password" />
-            <ValidationMessage For="@(() => loginModel.Password)" />
+            <input @bind="loginUserDto.Password" type="password" class="login-field" id="password" placeholder="Enter password" />
+            <ValidationMessage For="@(() => loginUserDto.Password)" />
         </div>
         <button type="submit" class="login-button">Login</button>
-        @if (!string.IsNullOrEmpty(error))
+        @if (!string.IsNullOrEmpty(message))
         {
-            <div class="error-message">@error</div>
+            <div class="error-message">@message</div>
         }
     </div>
 </EditForm>
 
 @code {
-    private LoginModel loginModel = new LoginModel();
-    private string error;
+    private LoginUserDto loginUserDto = new LoginUserDto();
+    private string message = string.Empty;
 
-    protected override void OnInitialized()
+
+    private async Task HandleUserLogin()
     {
-        AuthService.OnChange += StateHasChanged;
-    }
-
-    private async Task HandleLogin()
-    {
-        error = null;
-        var request = new UserLoginRequest
-            {
-                Email = loginModel.Email,
-                Password = loginModel.Password
-            };
-
-        var response = await UserService.LoginAsync(request);
+        var response = await UserService.LoginUserAsync(loginUserDto);
         if (response.Success)
         {
             var serviceResponse = await SessionService.GetSessionAsync();
             if (serviceResponse.Success)
             {
-                AuthService.SetCurrentSession(serviceResponse.Data);
+                AuthService.SetCurrentSession(serviceResponse.Data!);
                 NavigationManager.NavigateTo("/");
             }
             else
             {
-                error = serviceResponse.Message;
+                message = serviceResponse.Message;
             }
         }
         else
         {
-            error = response.Message;
+            message = response.Message;
         }
     }
 
-    private class LoginModel
+    protected override void OnInitialized()
     {
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email format")]
-        public string Email { get; set; }
-        [Required(ErrorMessage = "Password is required")]
-        public string Password { get; set; }
+        AuthService.OnChange += StateHasChanged;
     }
 }

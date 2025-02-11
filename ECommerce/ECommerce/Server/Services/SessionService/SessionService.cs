@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
+using ECommerce.Shared.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Server.Services.SessionService

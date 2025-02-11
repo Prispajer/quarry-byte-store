@@ -1,54 +1,37 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using ECommerce.Shared;
+﻿using ECommerce.Client.Services.HttpService;
+using ECommerce.Shared.Dto.User;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.User;
 
 namespace ECommerce.Client.Services.UserService
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient _http;
+        private readonly IHttpService _httpService;
 
-        public UserService(HttpClient http)
+        public UserService(IHttpService httpService)
         {
-            _http = http;
+            _httpService = httpService;
         }
 
-        public async Task<ServiceResponse<User>> LoginAsync(UserLoginRequest request)
+        public async Task<ServiceResponse<User>> LoginUserAsync(LoginUserDto loginUserDto)
         {
-                var response = await _http.PostAsJsonAsync("api/user/login", request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
-                    return serviceResponse;
-                }
-                else
-                {
-                    return new ServiceResponse<User>
-                    {
-                        Success = false,
-                        Message = "Could not authenticate user"
-                    };
-                }
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Post, "api/user/login", loginUserDto);
         }
 
-        public async Task<ServiceResponse<User>> RegisterAsync(UserRegistrationRequest request)
+        public async Task<ServiceResponse<User>> RegisterUserAsync(RegisterUserDto registerUserDto)
         {
-            var response = await _http.PostAsJsonAsync("api/user/register", request);
-            return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Post, "api/user/register", registerUserDto);
         }
 
-        public async Task<ServiceResponse<User>> ChangePasswordAsync(int id, string oldPassword, string newPassword)
+        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(ChangeUserPasswordDto changeUserPasswordDto)
         {
-            var response = await _http.PatchAsync($"api/user/resetpassword?id={id}&oldPassword={oldPassword}&newPassword={newPassword}", null);
-            return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/resetpassword?id={changeUserPasswordDto.UserId}&oldPassword={changeUserPasswordDto.OldPassword}&newPassword={changeUserPasswordDto.NewPassword}", null);
         }
 
-        public async Task<ServiceResponse<User>> ChangeForgottenPasswordAsync(string email, string newPassword)
+        public async Task<ServiceResponse<User>> ChangeUserForgottenPasswordAsync(ChangeUserForgottenPasswordDto changeUserForgottenPasswordDto)
         {
-            var response = await _http.PatchAsync($"api/user/forgotpassword?email={email}&newPassword={newPassword}", null);
-            return await response.Content.ReadFromJsonAsync<ServiceResponse<User>>();
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/forgotpassword?email={changeUserForgottenPasswordDto.Email}&newPassword={changeUserForgottenPasswordDto.NewPassword}", null);
         }
     }
 }

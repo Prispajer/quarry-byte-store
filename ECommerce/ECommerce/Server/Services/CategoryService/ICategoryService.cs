@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Server.Services.CategoryService
+﻿using ECommerce.Shared.Models;
+
+namespace ECommerce.Server.Services.CategoryService
 {
     public interface ICategoryService
     {

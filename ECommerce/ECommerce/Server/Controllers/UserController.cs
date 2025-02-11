@@ -1,6 +1,8 @@
 ﻿using ECommerce.Server.Services.SessionService;
 using ECommerce.Server.Services.TokenService;
 using ECommerce.Server.Services.UserService;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

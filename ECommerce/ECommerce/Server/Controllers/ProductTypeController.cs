@@ -1,4 +1,6 @@
 ﻿using ECommerce.Server.Services.ProductTypeService;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Server.Controllers

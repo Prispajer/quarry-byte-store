@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Client.Services.AuthService
+﻿using ECommerce.Shared.Models;
+
+namespace ECommerce.Client.Services.AuthService
 {
     public interface IAuthService
     {

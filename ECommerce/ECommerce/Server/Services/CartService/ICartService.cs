@@ -1,4 +1,7 @@
-﻿namespace ECommerce.Server.Services.CartService
+﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Cart;
+
+namespace ECommerce.Server.Services.CartService
 {
     public interface ICartService
     {

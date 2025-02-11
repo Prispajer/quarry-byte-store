@@ -1,4 +1,6 @@
 ﻿using Blazored.LocalStorage;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Cart;
 
 namespace ECommerce.Client.Services.CartService
 {

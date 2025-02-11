@@ -1,4 +1,4 @@
-﻿using System.Net.NetworkInformation;
+﻿using ECommerce.Shared.Models;
 
 namespace ECommerce.Client.Services.AuthService
 {

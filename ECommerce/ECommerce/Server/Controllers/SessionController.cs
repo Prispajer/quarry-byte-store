@@ -1,4 +1,5 @@
 ﻿using ECommerce.Server.Services.SessionService;
+using ECommerce.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

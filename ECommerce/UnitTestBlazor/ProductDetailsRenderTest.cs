@@ -5,6 +5,8 @@ using ECommerce.Shared;
 using ECommerce.Client.Pages;
 using ECommerce.Client.Services.CartService;
 using Microsoft.Extensions.DependencyInjection;
+using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 
 
 namespace UnitTestBlazor

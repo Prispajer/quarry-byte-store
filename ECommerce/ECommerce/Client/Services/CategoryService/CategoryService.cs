@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Client.Services.CategoryService
+﻿using ECommerce.Shared.Models;
+
+namespace ECommerce.Client.Services.CategoryService
 {
 
     public class CategoryService : ICategoryService

@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Client.Services.SessionService
+﻿using ECommerce.Shared.Models;
+
+namespace ECommerce.Client.Services.SessionService
 {
     public interface ISessionService
     {
