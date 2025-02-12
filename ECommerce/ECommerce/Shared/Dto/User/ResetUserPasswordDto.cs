@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Shared.Dto.User
 {
-    public class ChangeUserPasswordDto
+    public class ResetUserPasswordDto
     {
         public int UserId { get; set; }
         public string OldPassword { get; set; } = string.Empty;

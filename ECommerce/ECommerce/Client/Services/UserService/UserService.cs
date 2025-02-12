@@ -24,7 +24,7 @@ namespace ECommerce.Client.Services.UserService
             return await _httpService.SendRequestAsync<User>(HttpMethod.Post, "api/user/register", registerUserDto);
         }
 
-        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(ChangeUserPasswordDto changeUserPasswordDto)
+        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(ResetUserPasswordDto changeUserPasswordDto)
         {
             return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/resetpassword?id={changeUserPasswordDto.UserId}&oldPassword={changeUserPasswordDto.OldPassword}&newPassword={changeUserPasswordDto.NewPassword}", null);
         }

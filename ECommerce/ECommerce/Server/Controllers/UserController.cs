@@ -1,11 +1,12 @@
 ﻿using ECommerce.Server.Services.SessionService;
 using ECommerce.Server.Services.TokenService;
 using ECommerce.Server.Services.UserService;
+using ECommerce.Shared.Dto.User;
 using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace ECommerce.Server.Controllers
 {
@@ -27,9 +28,10 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> GetUserByEmailAndPassword(UserLoginRequest request)
+        public async Task<ActionResult<User>> LoginUser(LoginUserDto loginUserDto)
         {
-            var result = await _userService.GetUserByEmailAndPasswordAsync(request.Email, request.Password);
+            var result = await _userService.VerifyUserCredentialsAsync(loginUserDto.Email, loginUserDto.Password);
+
             if (!result.Success || result.Data == null)
             {
                 return Unauthorized("Could not authenticate user");
@@ -37,47 +39,49 @@ namespace ECommerce.Server.Controllers
 
             string token = _tokenService.GenerateToken(result.Data);
 
-            var session = new Session
+            var cookieOptions = new CookieOptions
             {
-                Username = result.Data.Email,
-                SessionId = Guid.NewGuid().ToString(),
-                LastLoginTime = DateTime.UtcNow,
-                TokenId = token
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(30)
             };
 
-            await _sessionService.SetSessionAsync(session);
+            Response.Cookies.Append("AuthToken", token, cookieOptions);
 
-            return Ok(new { Token = token });
+            return Ok(result);
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<User>>> CreateUser(UserRegistrationRequest request)
+        public async Task<ActionResult<ServiceResponse<User>>> RegisterUser(RegisterUserDto registerUserDto)
         {
-            var result = await _userService.CreateNewUserAsync(request.Email, request.Password, request.Name, request.IsAdmin);
+            var result = await _userService.RegisterUserAsync(registerUserDto.Email, registerUserDto.Password, registerUserDto.Name, registerUserDto.IsAdmin);
+
             if (result.Success)
             {
                 return Ok(result);
             }
+
             return Conflict(result);
         }
 
         [Authorize]
         [HttpPatch("resetpassword")]
-        public async Task<ActionResult<ServiceResponse<User>>> ChangePassword(int id, string oldPassword, string newPassword)
+        public async Task<ActionResult<ServiceResponse<User>>> ResetUserPassword(ResetUserPasswordDto resetUserPasswordDto)
         {
             var authorizationResult = await _authorizationService
-                .AuthorizeAsync(User, id, "IsSameUser");
+                .AuthorizeAsync(User, resetUserPasswordDto.UserId, "IsSameUser");
             if (!authorizationResult.Succeeded)
             {
                 return Unauthorized(null);
             }
 
-            var result = await _userService.CheckUserOldPasswordByIdAsync(id, oldPassword);
+            var result = await _userService.VerifyUserOldPasswordAsync(resetUserPasswordDto.UserId, resetUserPasswordDto.OldPassword);
             if (!result.Success || result.Data == null)
             {
                 return Unauthorized(result);
             }
-            result = await _userService.ChangeUserPasswordAsync(result.Data, newPassword);
+            result = await _userService.ChangeUserPasswordAsync(result.Data, resetUserPasswordDto.NewPassword);
             if (result.Success)
             {
                 return Ok(result);
@@ -87,20 +91,14 @@ namespace ECommerce.Server.Controllers
 
         [Authorize]
         [HttpPatch("forgotpassword")]
-        public async Task<ActionResult<ServiceResponse<User>>> ChangeForgottenPassword(string email, string newPassword)
+        public async Task<ActionResult<ServiceResponse<User>>> ChangeUserPassword(User user, string newPassword)
         {
-            var result = await _userService.GetUserByEmailAsync(email);
-            if (!result.Success || result.Data == null)
-            {
-                return BadRequest(result);
-            }
-            result = await _userService.ChangeUserPasswordAsync(result.Data, newPassword);
+            var result = await _userService.ChangeUserPasswordAsync(user, newPassword);
             if (result.Success)
             {
                 return Ok(result);
             }
             return Conflict(result);
         }
-
     }
 }

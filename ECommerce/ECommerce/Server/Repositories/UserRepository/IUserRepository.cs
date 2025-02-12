@@ -1,16 +1,16 @@
 ﻿using ECommerce.Shared.Dto.User;
 using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.User;
+using System.Linq.Expressions;
 
 namespace ECommerce.Server.Repositories.UserRepository
 {
     public interface IUserRepository
     {
-        public Task<ServiceResponse<User>> VerifyUserCredentialsAsync(LoginUserDto loginUserDto);
-        public Task<ServiceResponse<User>> VerifyOldPasswordAsync(int id, string oldPassword);
-
-        public Task<ServiceResponse<User>> CreateNewUserAsync(RegisterUserDto registerUserDto);
-
-        public Task<ServiceResponse<User>> UpdateUserPasswordAsync(User user, string newPassword);
+        public Task<User?> GetUserByEmailAsync(string email);
+        public Task<User?> GetUserByIdAsync(int userId);
+        public Task<bool> UserExistsByFieldAsync(Expression<Func<User, bool>> predicate);
+        public Task CreateUserAsync(User user);
+        public Task UpdateUserAsync(User user);
     }
 }

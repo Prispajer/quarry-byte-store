@@ -2,6 +2,7 @@
 using ECommerce.Shared.Models.User;
 using ECommerce.Shared.Dto.User;
 using ECommerce.Server.Repositories.UserRepository;
+using ECommerce.Server.Migrations;
 
 namespace ECommerce.Server.Services.UserService
 {
@@ -13,54 +14,31 @@ namespace ECommerce.Server.Services.UserService
         {
             _context = context;
             _userRepository = userRepository;
-
         }
 
-        public async Task<ServiceResponse<User>> GetUserByEmailAsync(string email)
+        public async Task<ServiceResponse<User>> VerifyUserCredentialsAsync(string email, string password)
         {
-            var data = await _context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
-            var response = new ServiceResponse<User>
-            {
-                Data = data,
-                Success = data != null
-            };
+            var user = await _userRepository.GetUserByEmailAsync(email);
 
-            return response;
-        }
-        public async Task<ServiceResponse<User>> GetUserByEmailAndPasswordAsync(string email, string password)
-        {
-            var data = await _context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
-            if (data != null && BC.Verify(password, data.PasswordHash))
+            if (user != null && BC.Verify(password, user.PasswordHash))
             {
                 return new ServiceResponse<User>
                 {
-                    Data = data,
+                    Data = user,
                     Success = true
                 };
             }
 
             return new ServiceResponse<User>
             {
-                Data = null,
-                Message = "Could not authenticate user",
-                Success = false
+                Success = false,
+                Message = "Invalid credentials."
             };
         }
-
-        public async Task<ServiceResponse<User>> RegisterUserAsync(RegisterUserDto registerUserDto)
+        public async Task<ServiceResponse<User>> VerifyUserOldPasswordAsync(int userId, string oldPassword)
         {
-            return await _userRepository.CreateNewUserAsync(registerUserDto);
-        }
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
-
-        private async Task<User?> GetUserById(int id)
-        {
-            return await _context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
-        }
-
-        public async Task<ServiceResponse<User>> CheckUserOldPasswordByIdAsync(int id, string oldPassword)
-        {
-            var user = await GetUserById(id);
             if (user == null)
             {
                 return new ServiceResponse<User>
@@ -70,6 +48,7 @@ namespace ECommerce.Server.Services.UserService
                     Success = false
                 };
             }
+
             if (!BC.Verify(oldPassword, user.PasswordHash))
             {
                 return new ServiceResponse<User>
@@ -79,6 +58,7 @@ namespace ECommerce.Server.Services.UserService
                     Success = false
                 };
             }
+
             return new ServiceResponse<User>
             {
                 Data = user,
@@ -86,22 +66,63 @@ namespace ECommerce.Server.Services.UserService
                 Success = true
             };
         }
+        public async Task<ServiceResponse<User>> RegisterUserAsync(string email, string password, string name, bool isAdmin)
+        {
+            if (await _userRepository.UserExistsByFieldAsync(u => u.Email == email))
+            {
+                return new ServiceResponse<User>
+                {
+                    Success = false,
+                    Message = "This email is already used."
+                };
+            }
 
+            if (await _userRepository.UserExistsByFieldAsync(u => u.Name == name))
+            {
+                return new ServiceResponse<User>
+                {
+                    Success = false,
+                    Message = "This username is already taken."
+                };
+            }
+
+            var hashedPassword = BC.HashPassword(password);
+
+            var user = new User { Email = email, Name = name, PasswordHash = hashedPassword, IsAdmin = isAdmin };
+
+            await _userRepository.CreateUserAsync(user);
+
+            return new ServiceResponse<User>
+            {
+                Data = user,
+                Success = true,
+                Message = "Account created successfully."
+            };
+        }
         public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(User user, string newPassword)
         {
+            if (user == null)
+            {
+                return new ServiceResponse<User>
+                {
+                    Data = null,
+                    Message = "User does not exist",
+                    Success = false
+                };
+            }
+
             if (BC.Verify(newPassword, user.PasswordHash))
             {
                 return new ServiceResponse<User>
                 {
                     Data = null,
-                    Message = "New password cannot be old password",
+                    Message = "New password cannot be previous password",
                     Success = false
                 };
             }
 
-            _context.Users.Update(user);
             user.PasswordHash = BC.HashPassword(newPassword);
-            await _context.SaveChangesAsync();
+            await _userRepository.UpdateUserAsync(user);
             
             return new ServiceResponse<User>
             {
