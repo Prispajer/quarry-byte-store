@@ -17,6 +17,7 @@ using ECommerce.Server.Services.ProductVariantService;
 using ECommerce.Server.Authorization.Handlers;
 using ECommerce.Server.Authorization.Requirements;
 using ECommerce.Server.Services.SessionService;
+using ECommerce.Server.Repositories.UserRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,6 +107,8 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 // The ITokenService interface registered with the SessionService
 builder.Services.AddScoped<ISessionService, SessionService>();
+// The IUserRepository interface registered with UserRepository
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 builder.Services.AddAuthorization(options =>

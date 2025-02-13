@@ -1,8 +1,6 @@
 ﻿using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.User;
-using ECommerce.Shared.Dto.User;
 using ECommerce.Server.Repositories.UserRepository;
-using ECommerce.Server.Migrations;
 
 namespace ECommerce.Server.Services.UserService
 {
@@ -99,8 +97,10 @@ namespace ECommerce.Server.Services.UserService
                 Message = "Account created successfully."
             };
         }
-        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(User user, string newPassword)
+        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(int userId, string newPassword)
         {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
             if (user == null)
             {
                 return new ServiceResponse<User>
@@ -123,7 +123,7 @@ namespace ECommerce.Server.Services.UserService
 
             user.PasswordHash = BC.HashPassword(newPassword);
             await _userRepository.UpdateUserAsync(user);
-            
+
             return new ServiceResponse<User>
             {
                 Data = user,
@@ -131,5 +131,6 @@ namespace ECommerce.Server.Services.UserService
                 Success = true
             };
         }
+
     }
 }

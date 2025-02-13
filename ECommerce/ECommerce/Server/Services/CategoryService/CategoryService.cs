@@ -1,4 +1,5 @@
 ﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 
 namespace ECommerce.Server.Services.CategoryService
 {
@@ -6,7 +7,6 @@ namespace ECommerce.Server.Services.CategoryService
     {
         
         private readonly DataContext _context;
-        //get access to categories        
         public CategoryService(DataContext context)
         {
             _context = context;
@@ -14,7 +14,6 @@ namespace ECommerce.Server.Services.CategoryService
 
         public async Task<ServiceResponse<List<Category>>> GetCategories()
         {
-            //get categories with data context - return new response with product categories
             var categories = await _context.Categories.ToListAsync();
             return new ServiceResponse<List<Category>>
             {
