@@ -10,7 +10,7 @@ namespace ECommerce.Client.Services.UserService
         Task<ServiceResponse<User>> LoginUserAsync(LoginUserDto loginUserDto);
         Task<ServiceResponse<User>> RegisterUserAsync(RegisterUserDto registerUserDto);
         Task<ServiceResponse<User>> ChangeUserPasswordAsync(ResetUserPasswordDto changeUserPasswordDto);
-        Task<ServiceResponse<User>> ChangeUserForgottenPasswordAsync(ChangeUserForgottenPasswordDto changeUserForgottenPasswordDto);
+        Task<ServiceResponse<User>> ChangeUserForgottenPasswordAsync(ChangeUserPasswordDto changeUserForgottenPasswordDto);
     }
 }
 

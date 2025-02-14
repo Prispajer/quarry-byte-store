@@ -24,14 +24,14 @@ namespace ECommerce.Client.Services.UserService
             return await _httpService.SendRequestAsync<User>(HttpMethod.Post, "api/user/register", registerUserDto);
         }
 
-        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(ResetUserPasswordDto changeUserPasswordDto)
+        public async Task<ServiceResponse<User>> ChangeUserPasswordAsync(ResetUserPasswordDto resetUserPasswordDto)
         {
-            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/resetpassword?id={changeUserPasswordDto.UserId}&oldPassword={changeUserPasswordDto.OldPassword}&newPassword={changeUserPasswordDto.NewPassword}", null);
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/resetpassword?id={resetUserPasswordDto.Id}&oldPassword={resetUserPasswordDto.OldPassword}&newPassword={resetUserPasswordDto.NewPassword}", null);
         }
 
-        public async Task<ServiceResponse<User>> ChangeUserForgottenPasswordAsync(ChangeUserForgottenPasswordDto changeUserForgottenPasswordDto)
+        public async Task<ServiceResponse<User>> ChangeUserForgottenPasswordAsync(ChangeUserPasswordDto changeUserPasswordDto)
         {
-            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/forgotpassword?email={changeUserForgottenPasswordDto.Email}&newPassword={changeUserForgottenPasswordDto.NewPassword}", null);
+            return await _httpService.SendRequestAsync<User>(HttpMethod.Patch, $"api/user/forgotpassword?id={changeUserPasswordDto.Id}&newPassword={changeUserPasswordDto.NewPassword}", null);
         }
     }
 }
