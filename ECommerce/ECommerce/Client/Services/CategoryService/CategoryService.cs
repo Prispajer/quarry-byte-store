@@ -1,4 +1,5 @@
 ﻿using ECommerce.Shared.Models;
+using ECommerce.Shared.Models.Product;
 
 namespace ECommerce.Client.Services.CategoryService
 {

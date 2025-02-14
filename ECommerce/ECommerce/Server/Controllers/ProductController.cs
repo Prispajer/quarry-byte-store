@@ -1,5 +1,6 @@
 ﻿using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Product;
+using ECommerce.Shared.Dto.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,76 +17,58 @@ namespace ECommerce.Server.Controllers
             _productService = productService;
         }
 
-    
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
         {
-            var result = await _productService.GetProductsAsync();
-            return Ok(result);
+            return Ok(await _productService.GetProductsAsync());
         }
 
         [HttpGet("{productId}")]
         public async Task<ActionResult<ServiceResponse<Product>>> GetProduct(int productId)
         {
-            var result = await _productService.GetProductAsync(productId);
-            return Ok(result);
+            return Ok(await _productService.GetProductAsync(productId));
         }
 
         [HttpGet("category/{categoryUrl}")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategory(string categoryUrl)
         {
-            var result = await _productService.GetProductsByCategory(categoryUrl);
-            return Ok(result);
+            return Ok(await _productService.GetProductsByCategory(categoryUrl));
         }
 
         [HttpGet("search/{searchText}")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchProducts(string searchText)
         {
-            var result = await _productService.SearchProducts(searchText);
-            return Ok(result);
+            return Ok(await _productService.SearchProducts(searchText));
         }
 
         [HttpGet("searchsuggestions/{searchText}")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductSearchSuggestions(string searchText)
         {
-            var result = await _productService.GetProductSearchSuggestions(searchText);
-            return Ok(result);
+            return Ok(await _productService.GetProductSearchSuggestions(searchText));
         }
 
         [HttpPost("add")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(string title, string description, string imageUrl, int categoryId)
+        public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(AddProductDto productDto)
         {
-            var result = await _productService.AddProductAsync(title, description, imageUrl, categoryId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var result = await _productService.AddProductAsync(productDto);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPatch("edit")]
+        [HttpPatch("edit/{id}")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(int id, string? title, string? description, string? imageUrl)
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(int id, EditProductDto productDto)
         {
-            var result = await _productService.EditProductAsync(id, title, description, imageUrl);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var result = await _productService.EditProductAsync(id, productDto);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         [Authorize(Policy = "IsAnAdmin")]
         public async Task<ActionResult<ServiceResponse<Product>>> DeleteProduct(int id)
         {
             var result = await _productService.DeleteProductAsync(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
     }
 }

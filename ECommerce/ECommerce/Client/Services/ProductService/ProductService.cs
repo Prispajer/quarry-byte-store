@@ -6,7 +6,7 @@ namespace ECommerce.Client.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly HttpClient _http;
-        public event Action ProductsChanged;
+        public event Action? ProductsChanged;
 
         public ProductService(HttpClient http)
         {
@@ -25,14 +25,12 @@ namespace ECommerce.Client.Services.ProductService
 
         public async Task GetProducts(string? categoryUrl = null)
         {
-            // ternary operator to check category of products
             var result = categoryUrl == null ?
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product") :
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
             if (result != null && result.Data != null)
                 Products = result.Data;
-            //invoke event- triggered an event informing about product change
-            ProductsChanged.Invoke();
+            ProductsChanged?.Invoke();
         }
         public async Task<List<string>> GetProductSearchSuggestions(string searchText)
         {
