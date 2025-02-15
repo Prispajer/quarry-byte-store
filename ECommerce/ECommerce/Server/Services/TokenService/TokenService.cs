@@ -1,4 +1,6 @@
-﻿using ECommerce.Shared.Models.User;
+﻿using ECommerce.Shared.Models.Cart;
+using ECommerce.Shared.Models.User;
+using ECommerce.Shared.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace ECommerce.Server.Services.TokenService
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
 
@@ -36,5 +38,29 @@ namespace ECommerce.Server.Services.TokenService
 
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
+
+        public Session DecodeToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jsonToken == null)
+            {
+                return null;
+            }
+
+            var username = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var userId = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            return new Session
+            {
+                Username = username,
+                SessionId = userId,
+                TokenId = token,
+                LastLoginTime = DateTime.Now,
+                CartItems = new List<CartItem>()
+            };
+        }
+
     }
 }

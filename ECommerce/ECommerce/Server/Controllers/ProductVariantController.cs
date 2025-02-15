@@ -1,14 +1,15 @@
-﻿using ECommerce.Server.Services.ProductVariantService;
-using ECommerce.Shared.Models;
+﻿using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Product;
+using ECommerce.Shared.Dto.ProductVariant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ECommerce.Server.Services.ProductVariantService;
 
 namespace ECommerce.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductVariantController: ControllerBase
+    public class ProductVariantController : ControllerBase
     {
         private readonly IProductVariantService _productVariantService;
 
@@ -19,38 +20,26 @@ namespace ECommerce.Server.Controllers
 
         [HttpPost("add")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<ProductVariant>>> AddProductVariant(int productId, int productTypeId, decimal price, decimal originalPrice)
+        public async Task<ActionResult<ServiceResponse<Product>>> AddProductVariant(AddProductVariantDto addProductVariantDto)
         {
-            var result = await _productVariantService.AddProductVariantAsync(productId, productTypeId, price, originalPrice);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var result = await _productVariantService.AddProductVariantAsync(addProductVariantDto.ProductId, addProductVariantDto.ProductTypeId, addProductVariantDto.Price, addProductVariantDto.OriginalPrice);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
 
         [HttpPatch("edit")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<ProductVariant>>> EditProductVariant(int productId, int productTypeId, decimal price, decimal originalPrice)
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProductVariant(EditProductVariantDto editProductVariantDto)
         {
-            var result = await _productVariantService.EditProductVariantAsync(productId, productTypeId, price, originalPrice);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var result = await _productVariantService.EditProductVariantAsync(editProductVariantDto.ProductId, editProductVariantDto.ProductTypeId, editProductVariantDto.Price, editProductVariantDto.OriginalPrice);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
 
         [HttpDelete("delete")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<ProductVariant>>> DeleteProductVariant(int productId, int productTypeId)
+        public async Task<ActionResult<ServiceResponse<Product>>> DeleteProductVariant(DeleteProductVariantDto deleteProductVariantDto)
         {
-            var result = await _productVariantService.DeleteProductVariantAsync(productId, productTypeId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            var result = await _productVariantService.DeleteProductVariantAsync(deleteProductVariantDto.ProductId, deleteProductVariantDto.ProductTypeId);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
     }
 }

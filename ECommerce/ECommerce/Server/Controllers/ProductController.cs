@@ -49,17 +49,17 @@ namespace ECommerce.Server.Controllers
 
         [HttpPost("add")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(AddProductDto productDto)
+        public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(AddProductDto addProductDto)
         {
-            var result = await _productService.AddProductAsync(productDto);
+            var result = await _productService.AddProductAsync(addProductDto.Title, addProductDto.Description, addProductDto.ImageUrl, addProductDto.CategoryId);
             return result.Success ? Ok(result) : BadRequest(result);
         }
 
         [HttpPatch("edit/{id}")]
         [Authorize(Policy = "IsAnAdmin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(int id, EditProductDto productDto)
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(EditProductDto editProductDto)
         {
-            var result = await _productService.EditProductAsync(id, productDto);
+            var result = await _productService.EditProductAsync(editProductDto.Id, editProductDto.Title, editProductDto.Description, editProductDto.ImageUrl);
             return result.Success ? Ok(result) : BadRequest(result);
         }
 

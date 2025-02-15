@@ -17,7 +17,6 @@ namespace ECommerce.Server.Services.CategoryService
             var categories = await _context.Categories.ToListAsync();
             return new ServiceResponse<List<Category>>
             {
-                //set Data to categories
                 Data = categories
             };
         }
