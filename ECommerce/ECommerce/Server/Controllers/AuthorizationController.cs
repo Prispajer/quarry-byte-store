@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
+using System.Linq;
+using System.Security.Claims;
 
 namespace ECommerce.Server.Controllers
 {
@@ -11,18 +11,50 @@ namespace ECommerce.Server.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
+        private readonly ILogger<AuthorizationController> _logger;
+
+        public AuthorizationController(ILogger<AuthorizationController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet("authorize")]
         [Authorize]
         public ActionResult GetUserConfirmed()
         {
-            return Ok("You have access to user-level actions and information");
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("User ID is missing in the token.");
+                }
+
+                return Ok(new { Message = "You have access to user-level actions and information", UserId = userId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Authorization error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("authorizeAdmin")]
         [Authorize(Policy = "IsAnAdmin")]
         public ActionResult GetAdminPrivilegeConfirmed()
         {
-            return Ok("You have access to admin-level actions and information");
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                return Ok(new { Message = "You have access to admin-level actions and information", UserId = userId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Admin authorization error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }

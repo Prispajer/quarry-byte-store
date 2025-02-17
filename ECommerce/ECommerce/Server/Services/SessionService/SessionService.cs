@@ -17,7 +17,7 @@ namespace ECommerce.Server.Services.SessionService
             _tokenService = tokenService;
         }
 
-        public async Task<ServiceResponse<Session>> GetSessionAsync()
+        public ServiceResponse<Session> GetSession()
         {
             var token = _httpContext.HttpContext?.Request.Cookies["AuthToken"];
 

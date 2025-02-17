@@ -18,9 +18,10 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet("getsession")]
-        public async Task<ActionResult<ServiceResponse<Session>>> GetSessionInfo()
+        public ActionResult<ServiceResponse<Session>> GetSession()
         {
-            var session = await _sessionService.GetSessionAsync();
+            var session = _sessionService.GetSession();
+
             if (!session.Success)
             {
                 return Conflict(session);
@@ -28,15 +29,5 @@ namespace ECommerce.Server.Controllers
             return Ok(session);
         }
 
-        [HttpPost("updatesession")]
-        public async Task<ActionResult<ServiceResponse<Session>>> UpdateSession(Session session)
-        {
-            var updatedSession = await _sessionService.UpdateSessionAsync(session);
-            if (!updatedSession.Success)
-            {
-                return Conflict(updatedSession);
-            }
-            return Ok(updatedSession);
-        }
     }
 }

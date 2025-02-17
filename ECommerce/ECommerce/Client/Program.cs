@@ -1,4 +1,3 @@
-global using ECommerce.Shared;
 global using System.Net.Http.Json;
 global using ECommerce.Client.Services.ProductService;
 global using ECommerce.Client.Services.CategoryService;
@@ -11,6 +10,7 @@ using ECommerce.Client.Services.ModalService;
 using ECommerce.Client.Services.UserService;
 using ECommerce.Client.Services.SessionService;
 using ECommerce.Client.Services.AuthService;
+using ECommerce.Client.Services.HttpService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -26,12 +26,14 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 //registered ModalService
 builder.Services.AddScoped<IModalService, ModalService>();
-//registered UserService
+//registered UserService    
 builder.Services.AddScoped<IUserService, UserService>();
 //registered SessionService
 builder.Services.AddScoped<ISessionService, SessionService>();
 //registered AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
+//registered HttpService
+builder.Services.AddScoped<IHttpService, HttpService>();
 
 
 

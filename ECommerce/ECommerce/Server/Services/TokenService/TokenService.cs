@@ -39,7 +39,7 @@ namespace ECommerce.Server.Services.TokenService
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        public Session DecodeToken(string token)
+        public Session? DecodeToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
@@ -49,8 +49,13 @@ namespace ECommerce.Server.Services.TokenService
                 return null;
             }
 
-            var username = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            var userId = jsonToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var username = jsonToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var userId = jsonToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
 
             return new Session
             {
@@ -61,6 +66,5 @@ namespace ECommerce.Server.Services.TokenService
                 CartItems = new List<CartItem>()
             };
         }
-
     }
 }

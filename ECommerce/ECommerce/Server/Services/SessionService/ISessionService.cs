@@ -4,7 +4,6 @@ namespace ECommerce.Server.Services.SessionService
 {
     public interface ISessionService
     {
-        Task<ServiceResponse<Session>> GetSessionAsync();
-
+        ServiceResponse<Session> GetSession();
     }
 }
