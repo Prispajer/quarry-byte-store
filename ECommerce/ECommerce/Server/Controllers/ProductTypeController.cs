@@ -10,17 +10,27 @@ namespace ECommerce.Server.Controllers
     public class ProductTypeController : ControllerBase
     {
         private readonly IProductTypeService _productTypeService;
+        private readonly ILogger<ProductTypeController> _logger;
 
-        public ProductTypeController(IProductTypeService productTypeService)
+        public ProductTypeController(IProductTypeService productTypeService, ILogger<ProductTypeController> logger)
         {
             _productTypeService = productTypeService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductTypes()
         {
-            var result = await _productTypeService.GetProductTypesAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _productTypeService.GetProductTypesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Get product types error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }

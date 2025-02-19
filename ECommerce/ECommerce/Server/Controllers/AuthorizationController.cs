@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 
 namespace ECommerce.Server.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorizationController : ControllerBase
@@ -25,17 +23,15 @@ namespace ECommerce.Server.Controllers
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
                 if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized("User ID is missing in the token.");
                 }
-
                 return Ok(new { Message = "You have access to user-level actions and information", UserId = userId });
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Authorization error: {ex.Message}");
+                _logger.LogError($"User authorization error: {ex.Message}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
@@ -47,7 +43,6 @@ namespace ECommerce.Server.Controllers
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
                 return Ok(new { Message = "You have access to admin-level actions and information", UserId = userId });
             }
             catch (Exception ex)
@@ -57,4 +52,5 @@ namespace ECommerce.Server.Controllers
             }
         }
     }
+
 }

@@ -11,23 +11,27 @@ namespace ECommerce.Server.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ISessionService _sessionService;
+        private ILogger<SessionController> _logger;
 
-        public SessionController(ISessionService sessionService)
+        public SessionController(ISessionService sessionService, ILogger<SessionController> logger)
         {
             _sessionService = sessionService;
+            _logger = logger;
         }
 
         [HttpGet("getsession")]
         public ActionResult<ServiceResponse<Session>> GetSession()
         {
-            var session = _sessionService.GetSession();
-
-            if (!session.Success)
+            try
             {
-                return Conflict(session);
+                var result = _sessionService.GetSession();
+                return result.Success ? Ok(result) : BadRequest(result);
             }
-            return Ok(session);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Get session error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
-
     }
 }

@@ -33,73 +33,100 @@ namespace ECommerce.Server.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> LoginUser(LoginUserDto loginUserDto)
         {
-            var result = await _userService.VerifyUserCredentialsAsync(loginUserDto.Email, loginUserDto.Password);
-
-            if (!result.Success || result.Data == null)
+            try
             {
-                _logger.LogWarning("Failed login attempt for email: {Email}", loginUserDto.Email);
-                return Unauthorized("Could not authenticate user");
+                var result = await _userService.VerifyUserCredentialsAsync(loginUserDto.Email, loginUserDto.Password);
+
+                if (!result.Success || result.Data == null)
+                {
+                    _logger.LogWarning("Failed login attempt for email: {Email}", loginUserDto.Email);
+                    return Unauthorized("Could not authenticate user");
+                }
+
+                string token = _tokenService.GenerateToken(result.Data);
+                Response.Cookies.Append("AuthToken", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddMinutes(30)
+                });
+
+                return Ok(result);
             }
-
-            string token = _tokenService.GenerateToken(result.Data);
-            Response.Cookies.Append("AuthToken", token, new CookieOptions
+            catch (Exception ex)
             {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(30)
-            });
-
-            return Ok(result);
+                _logger.LogError($"Login error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<User>>> RegisterUser(RegisterUserDto registerUserDto)
         {
-            var result = await _userService.RegisterUserAsync(registerUserDto.Email, registerUserDto.Password, registerUserDto.Name, registerUserDto.IsAdmin);
-
-            if (result.Success)
+            try
             {
-                return Ok(result);
+                var result = await _userService.RegisterUserAsync(registerUserDto.Email, registerUserDto.Password, registerUserDto.Name, registerUserDto.IsAdmin);
+                return result.Success ? Ok(result) : Conflict(result);
             }
-
-            return Conflict(result);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Registration error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
-        [Authorize]
+         [Authorize]
         [HttpPatch("resetpassword")]
         public async Task<ActionResult<ServiceResponse<User>>> ResetUserPassword(ResetUserPasswordDto resetUserPasswordDto)
         {
-            var authorizationResult = await _authorizationService
-                .AuthorizeAsync(User, resetUserPasswordDto.Id, "IsSameUser");
-
-            if (!authorizationResult.Succeeded)
+            try
             {
-                return Forbid("You are not authorized to change this password.");
-            }
+                var authorizationResult = await _authorizationService
+                    .AuthorizeAsync(User, resetUserPasswordDto.Id, "IsSameUser");
 
-            var result = await _userService.VerifyUserOldPasswordAsync(resetUserPasswordDto.Id, resetUserPasswordDto.OldPassword);
-            if (!result.Success || result.Data == null)
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid("You are not authorized to change this password.");
+                }
+
+                var result = await _userService.VerifyUserOldPasswordAsync(resetUserPasswordDto.Id, resetUserPasswordDto.OldPassword);
+                if (!result.Success || result.Data == null)
+                {
+                    _logger.LogWarning("Invalid old password for user ID: {UserId}", resetUserPasswordDto.Id);
+                    return Unauthorized("Old password is incorrect.");
+                }
+
+                var updateResult = await _userService.ChangeUserPasswordAsync(result.Data.Id, resetUserPasswordDto.NewPassword);
+                return updateResult.Success ? Ok(updateResult) : Conflict(updateResult);
+            }
+            catch (Exception ex)
             {
-                _logger.LogWarning("Invalid old password for user ID: {UserId}", resetUserPasswordDto.Id);
-                return Unauthorized("Old password is incorrect.");
+                _logger.LogError($"Password reset error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
             }
-
-            var updateResult = await _userService.ChangeUserPasswordAsync(result.Data.Id, resetUserPasswordDto.NewPassword);
-            return updateResult.Success ? Ok(updateResult) : Conflict(updateResult);
         }
+
 
         [Authorize]
         [HttpPatch("forgotpassword")]
         public async Task<ActionResult<ServiceResponse<User>>> ChangeUserPassword(ChangeUserPasswordDto changeUserPasswordDto)
         {
-            if (string.IsNullOrWhiteSpace(changeUserPasswordDto.NewPassword) || changeUserPasswordDto.NewPassword.Length < 8)
+            try
             {
-                return BadRequest("New password must be at least 8 characters long.");
-            }
+                if (string.IsNullOrWhiteSpace(changeUserPasswordDto.NewPassword) || changeUserPasswordDto.NewPassword.Length < 8)
+                {
+                    return BadRequest("New password must be at least 8 characters long.");
+                }
 
-            var result = await _userService.ChangeUserPasswordAsync(changeUserPasswordDto.Id, changeUserPasswordDto.NewPassword);
-            return result.Success ? Ok(result) : Conflict(result);
+                var result = await _userService.ChangeUserPasswordAsync(changeUserPasswordDto.Id, changeUserPasswordDto.NewPassword);
+                return result.Success ? Ok(result) : Conflict(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Forgot password error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }

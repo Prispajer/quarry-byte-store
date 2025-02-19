@@ -4,23 +4,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Server.Controllers
 {
-
-    [Route("api/[controller]")]
+[Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
-        //web service call
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Category>>>> GetCategories()
         {
-            var result = await _categoryService.GetCategories();
-            return Ok(result);
+            try
+            {
+                var result = await _categoryService.GetCategories();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Category retrieval error: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }
