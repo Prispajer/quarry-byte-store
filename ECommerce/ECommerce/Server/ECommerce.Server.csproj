@@ -26,9 +26,5 @@
     <ProjectReference Include="..\Shared\ECommerce.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\ProductRepository\" />
-  </ItemGroup>
-
 
 </Project>

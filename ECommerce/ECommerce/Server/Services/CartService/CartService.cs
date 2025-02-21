@@ -1,15 +1,17 @@
-﻿using ECommerce.Shared.Models;
+﻿
+using ECommerce.Server.Repositories.CartRepository;
 using ECommerce.Shared.Models.Cart;
+using ECommerce.Shared.Models;
 
 namespace ECommerce.Server.Services.CartService
 {
     public class CartService : ICartService
     {
-        private readonly DataContext _context;
+        private readonly ICartRepository _cartRepository;
 
-        public CartService(DataContext context)
+        public CartService(ICartRepository cartRepository)
         {
-            _context = context;
+            _cartRepository = cartRepository;
         }
 
         public async Task<ServiceResponse<List<CartProductResponse>>> GetCartProducts(List<CartItem> cartItems)
@@ -21,21 +23,13 @@ namespace ECommerce.Server.Services.CartService
 
             foreach (var item in cartItems)
             {
-                var product = await _context.Products
-                    .Where(p => p.Id == item.ProductId)
-                    .FirstOrDefaultAsync();
-
+                var product = await _cartRepository.GetProductByIdAsync(item.ProductId);
                 if (product == null)
                 {
                     continue;
                 }
 
-                var productVariant = await _context.ProductVariants
-                    .Where(v => v.ProductId == item.ProductId
-                        && v.ProductTypeId == item.ProductTypeId)
-                    .Include(v => v.ProductType)
-                    .FirstOrDefaultAsync();
-
+                var productVariant = await _cartRepository.GetProductVariantAsync(item.ProductId, item.ProductTypeId);
                 if (productVariant == null)
                 {
                     continue;

@@ -76,7 +76,7 @@ namespace ECommerce.Server.Controllers
             }
         }
 
-         [Authorize]
+        [Authorize]
         [HttpPatch("resetpassword")]
         public async Task<ActionResult<ServiceResponse<User>>> ResetUserPassword(ResetUserPasswordDto resetUserPasswordDto)
         {

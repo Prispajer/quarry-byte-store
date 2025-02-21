@@ -18,6 +18,8 @@ using ECommerce.Server.Authorization.Handlers;
 using ECommerce.Server.Authorization.Requirements;
 using ECommerce.Server.Services.SessionService;
 using ECommerce.Server.Repositories.UserRepository;
+using ECommerce.Server.Repositories.CartRepository;
+using ECommerce.Server.Repositories.CategoryRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -109,6 +111,11 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 // The IUserRepository interface registered with UserRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+// The ICartRepository interface registered with CartRepository
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+// The ICategoryRepository interface registered with CategoryRepository
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
 
 builder.Services.AddAuthorization(options =>
