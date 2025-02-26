@@ -2,6 +2,7 @@
 using ECommerce.Server.Repositories.CartRepository;
 using ECommerce.Shared.Models.Cart;
 using ECommerce.Shared.Models;
+using ECommerce.Shared.Dto.Cart;
 
 namespace ECommerce.Server.Services.CartService
 {
@@ -14,14 +15,14 @@ namespace ECommerce.Server.Services.CartService
             _cartRepository = cartRepository;
         }
 
-        public async Task<ServiceResponse<List<CartProductResponse>>> GetCartProducts(List<CartItem> cartItems)
+        public async Task<ServiceResponse<List<CartProductResponse>>> GetCartProducts(List<GetCartProductsDto> cartItemsDto)
         {
-            var result = new ServiceResponse<List<CartProductResponse>>
+            var result = new ServiceResponse<List<CartProductResponse>>()
             {
                 Data = new List<CartProductResponse>()
             };
 
-            foreach (var item in cartItems)
+            foreach (var item in cartItemsDto)
             {
                 var product = await _cartRepository.GetProductByIdAsync(item.ProductId);
                 if (product == null)

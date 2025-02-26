@@ -4,10 +4,10 @@ namespace ECommerce.Client.Services.AuthService
 {
     public class AuthService : IAuthService
     {
-        private Session _session;
-        public event Action OnChange;
+        private Session? _session;
+        public event Action? OnChange;
 
-        public Session GetCurrentSession()
+        public Session? GetCurrentSession()
         {
             return _session;
         }

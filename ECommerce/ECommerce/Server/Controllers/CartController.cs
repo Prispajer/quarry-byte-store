@@ -1,4 +1,5 @@
-﻿using ECommerce.Shared.Models;
+﻿using ECommerce.Shared.Dto.Cart;
+using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Cart;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +19,18 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpPost("products")]
-        public async Task<ActionResult<ServiceResponse<List<CartProductResponse>>>> GetCartProducts(List<CartItem> cartItems)
+        public async Task<ActionResult<ServiceResponse<List<CartProductResponse>>>> GetCartProducts(List<GetCartProductsDto> cartItemsDto)
         {
             try
             {
-                var result = await _cartService.GetCartProducts(cartItems);
+                var cartItems = cartItemsDto.Select(dto => new CartItem
+                {
+                    ProductId = dto.ProductId,
+                    ProductTypeId = dto.ProductTypeId,
+                    Quantity = dto.Quantity
+                }).ToList();
+
+                var result = await _cartService.GetCartProducts(cartItemsDto);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -31,5 +39,6 @@ namespace ECommerce.Server.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
     }
 }

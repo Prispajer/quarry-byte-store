@@ -39,9 +39,9 @@ namespace ECommerce.Server.Controllers
 
                 if (!result.Success || result.Data == null)
                 {
-                    _logger.LogWarning("Failed login attempt for email: {Email}", loginUserDto.Email);
+                    _logger.LogWarning($"Failed login attempt for email: {loginUserDto.Email}", loginUserDto.Email);
                     return Unauthorized("Could not authenticate user");
-                }
+                } 
 
                 string token = _tokenService.GenerateToken(result.Data);
                 Response.Cookies.Append("AuthToken", token, new CookieOptions
