@@ -2,17 +2,18 @@
 @inject IAuthService AuthService
 @inject ISessionService SessionService
 @inject NavigationManager NavigationManager
+@using ECommerce.Shared.Models;
 
 
 <div class="auth-modal @modalRender">
-    <div class="auth-modal-content ">
-        <button class="auth-close-button" @onclick="()=> ModalService.ToggleAuthModalState(false)">&times;</button>
+    <div class="auth-modal-content">
+        <button class="auth-close-button" @onclick="() => ModalService.ToggleAuthModalState(false)">&times;</button>
         <div class="auth-modal-body">
-            @if (AuthService.GetCurrentSession() != null)
+            @if (_session != null)
             {
                 <div class="auth-logged-user">
-                    <span class="auth-username header-hover">@AuthService.GetCurrentSession().Username</span>
-                    <span class="auth-logout header-hover" @onclick="()=> Logout()">Wyloguj</span>
+                    <span class="auth-username header-hover">@_session.Username</span>
+                    <span class="auth-logout header-hover" @onclick="Logout">Wyloguj</span>
                 </div>
             }
             else
@@ -29,13 +30,27 @@
 </div>
 
 @code {
-
+    private Session? _session;
     private string modalRender => ModalService.AuthModalState ? "" : "auth-close-window";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _session = await AuthService.GetCurrentSession();
+        AuthService.OnChange += UpdateSession;
+        ModalService.ModalStateChanged += StateHasChanged;
+    }
+
+    private async void UpdateSession()
+    {
+        _session = await AuthService.GetCurrentSession();
+        StateHasChanged();
+    }
 
     private async Task Logout()
     {
-        AuthService.ClearCurrentSession();
-        NavigationManager.NavigateTo("/", forceLoad:true);
+        await AuthService.ClearCurrentSession();
+        _session = null;
+        NavigationManager.NavigateTo("/", forceLoad: true);
     }
 
     private void RedirectToLogin()
@@ -50,15 +65,9 @@
         ModalService.RedirectToRegister();
     }
 
-    protected override void OnInitialized()
-    {
-        AuthService.OnChange += StateHasChanged;
-        ModalService.ModalStateChanged += StateHasChanged;
-    }
-
     public void Dispose()
     {
-        AuthService.OnChange -= StateHasChanged;
+        AuthService.OnChange -= UpdateSession;
         ModalService.ModalStateChanged -= StateHasChanged;
     }
 }
