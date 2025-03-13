@@ -1,4 +1,5 @@
 ﻿@using ECommerce.Shared.Models.Cart
+@using ECommerce.Shared.Models;
 @inject ICartService CartService
 @inject NavigationManager NavigationManager
 @inject ISyncLocalStorageService LocalStorage
@@ -18,26 +19,28 @@
     <button class="icon-option icon-toggle">
         <i class="oi oi-magnifying-glass" @onclick="() => ModalService.ToggleSearchModalState(true)"></i>
     </button>
-    @if (AuthService.GetCurrentSession() != null)
+    @if (_session != null)
     {
         <div class="auth-logged-user">
-            <span class="auth-username header-hover">@AuthService.GetCurrentSession().Username</span>
-            <span class="auth-logout header-hover" @onclick="()=> Logout()">Wyloguj</span>
+            <span class="auth-username header-hover">@_session.Username</span>
+            <span class="auth-logout header-hover" @onclick="Logout">Logout</span>
         </div>
     }
     else
     {
         <a href="/user/login" class="auth-option header-hover">
-            <span>Zaloguj</span>
+            <span>Login</span>
         </a>
         <span class="vertical-line">|</span>
         <a href="/user/register" class="auth-option header-hover">
-            <span>Zarejestruj</span>
+            <span>Register</span>
         </a>
     }
 </div>
 
 @code {
+    private Session? _session;
+
     private int GetCartItemsCount()
     {
         var cart = LocalStorage.GetItem<List<CartItem>>("cart");
@@ -46,21 +49,25 @@
 
     private async Task Logout()
     {
-        AuthService.ClearCurrentSession();
+        await AuthService.ClearCurrentSession();
+        _session = null;
         NavigationManager.NavigateTo("/", forceLoad: true);
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AuthService.OnChange += StateHasChanged;
-        ModalService.ModalStateChanged += StateHasChanged;
-        CartService.OnChange += StateHasChanged;
+        _session = await AuthService.GetCurrentSession();
+        AuthService.OnChange += UpdateSession;
+    }
+
+    private async void UpdateSession()
+    {
+        _session = await AuthService.GetCurrentSession();
+        StateHasChanged();
     }
 
     public void Dispose()
     {
-        AuthService.OnChange -= StateHasChanged;
-        ModalService.ModalStateChanged -= StateHasChanged;
-        CartService.OnChange -= StateHasChanged;
+        AuthService.OnChange -= UpdateSession;
     }
 }
