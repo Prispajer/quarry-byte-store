@@ -1,30 +1,25 @@
 ﻿using Blazored.LocalStorage;
+using ECommerce.Client.Services.HttpService;
 using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Cart;
 
 namespace ECommerce.Client.Services.CartService
 {
-
     public class CartService : ICartService
     {
         public event Action? OnChange;
         private readonly ILocalStorageService _localStorage;
-        private readonly HttpClient _http;
+        private readonly IHttpService _httpService;
 
-        public CartService(ILocalStorageService localStorage, HttpClient http)
+        public CartService(ILocalStorageService localStorage, IHttpService httpService)
         {
             _localStorage = localStorage;
-            _http = http;
+            _httpService = httpService;
         }
 
         public async Task AddToCart(CartItem cartItem)
         {
-            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-
-            if (cart == null)
-            {
-                cart = new List<CartItem>();
-            }
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart") ?? new List<CartItem>();
 
             var productExists = cart.Find(p => p.ProductId == cartItem.ProductId &&
                 p.ProductTypeId == cartItem.ProductTypeId);
@@ -44,38 +39,24 @@ namespace ECommerce.Client.Services.CartService
 
         public async Task<List<CartItem>> GetCartItems()
         {
-            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-
-            if (cart == null)
-            {
-                cart = new List<CartItem>();
-            }
-
-            return cart;
+            return await _localStorage.GetItemAsync<List<CartItem>>("cart") ?? new List<CartItem>();
         }
 
         public async Task<List<CartProductResponse>> GetCartProducts()
         {
             var cartItems = await _localStorage.GetItemAsync<List<CartItem>>("cart");
 
-            var response = await _http.PostAsJsonAsync("api/cart/products", cartItems);
-
-            var cartProducts =
-                await response.Content.ReadFromJsonAsync<ServiceResponse<List<CartProductResponse>>>();
-
-            return cartProducts?.Data ?? new List<CartProductResponse>();
+            var response = await _httpService.SendRequestAsync<List<CartProductResponse>>(HttpMethod.Post, "api/cart/products", cartItems);
+            return response.Data ?? new List<CartProductResponse>();
         }
 
         public async Task RemoveProductFromCart(int productId, int productTypeId)
         {
             var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
             if (cart == null)
-            {
                 return;
-            }
 
-            var cartItem = cart.Find(x => x.ProductId == productId
-                && x.ProductTypeId == productTypeId);
+            var cartItem = cart.Find(x => x.ProductId == productId && x.ProductTypeId == productTypeId);
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
@@ -88,12 +69,9 @@ namespace ECommerce.Client.Services.CartService
         {
             var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
             if (cart == null)
-            {
                 return;
-            }
 
-            var cartItem = cart.Find(x => x.ProductId == product.ProductId
-                && x.ProductTypeId == product.ProductTypeId);
+            var cartItem = cart.Find(x => x.ProductId == product.ProductId && x.ProductTypeId == product.ProductTypeId);
             if (cartItem != null)
             {
                 cartItem.Quantity = product.Quantity;
@@ -102,4 +80,3 @@ namespace ECommerce.Client.Services.CartService
         }
     }
 }
-

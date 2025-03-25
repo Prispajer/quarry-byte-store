@@ -1,16 +1,17 @@
-﻿using ECommerce.Shared.Models;
+﻿using ECommerce.Client.Services.HttpService;
+using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Product;
 
 namespace ECommerce.Client.Services.ProductService
 {
     public class ProductService : IProductService
     {
-        private readonly HttpClient _http;
+        private readonly IHttpService _httpService;
         public event Action? ProductsChanged;
 
-        public ProductService(HttpClient http)
+        public ProductService(IHttpService httpService)
         {
-            _http = http;
+            _httpService = httpService;
         }
 
         public List<Product> Products { get; set; } = new List<Product>();
@@ -18,34 +19,37 @@ namespace ECommerce.Client.Services.ProductService
 
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Product>>($"api/product/{productId}");
-            return result;
+            return await _httpService.SendRequestAsync<Product>(HttpMethod.Get, $"api/product/{productId}");
         }
-
 
         public async Task GetProducts(string? categoryUrl = null)
         {
-            var result = categoryUrl == null ?
-                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product") :
-                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
-            if (result != null && result.Data != null)
+            var result = await _httpService.SendRequestAsync<List<Product>>(
+                HttpMethod.Get,
+                categoryUrl == null ? "api/product" : $"api/product/category/{categoryUrl}"
+            );
+
+            if (result.Data != null)
                 Products = result.Data;
+
             ProductsChanged?.Invoke();
         }
+
         public async Task<List<string>> GetProductSearchSuggestions(string searchText)
         {
-            var result = await _http
-                .GetFromJsonAsync<ServiceResponse<List<string>>>($"api/product/searchsuggestions/{searchText}");
+            var result = await _httpService.SendRequestAsync<List<string>>(HttpMethod.Get, $"api/product/searchsuggestions/{searchText}");
             return result.Data;
         }
 
         public async Task SearchProducts(string searchText)
         {
-            var result = await _http
-                 .GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/search/{searchText}");
-            if (result != null && result.Data != null)
+            var result = await _httpService.SendRequestAsync<List<Product>>(HttpMethod.Get, $"api/product/search/{searchText}");
+            if (result.Data != null)
                 Products = result.Data;
-            if (Products.Count == 0) Message = "Product is not available";
+
+            if (Products.Count == 0)
+                Message = "Product is not available";
+
             ProductsChanged?.Invoke();
         }
     }
