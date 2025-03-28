@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ECommerce.Server.Services.UserAuthorizationService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace ECommerce.Server.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
         private readonly ILogger<AuthorizationController> _logger;
+        private readonly IUserAuthorizationService _userAuthorizationService;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IUserAuthorizationService userAuthorizationService)
         {
             _logger = logger;
+            _userAuthorizationService = userAuthorizationService; 
         }
 
         [HttpGet("authorize")]
@@ -22,7 +25,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var user = _userAuthorizationService.GetUserIdFromClaims(User); 
                 if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized("User ID is missing in the token.");
@@ -52,5 +55,4 @@ namespace ECommerce.Server.Controllers
             }
         }
     }
-
 }

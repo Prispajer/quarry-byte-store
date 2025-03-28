@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Threading.Tasks;
-using ECommerce.Shared.Models;
-using System.Security.Claims;
+﻿using ECommerce.Shared.Models;
 using ECommerce.Server.Services.TokenService;
 
 namespace ECommerce.Server.Services.SessionService
@@ -32,6 +29,7 @@ namespace ECommerce.Server.Services.SessionService
             }
 
             var session = _tokenService.DecodeToken(token);
+
             if (session == null)
             {
                 return new ServiceResponse<Session>
