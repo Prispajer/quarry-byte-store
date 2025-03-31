@@ -22,7 +22,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                var result = await _categoryService.GetCategories();
+                var result = await _categoryService.GetCategoriesAsync();
                 return Ok(result);
             }
             catch (Exception ex)

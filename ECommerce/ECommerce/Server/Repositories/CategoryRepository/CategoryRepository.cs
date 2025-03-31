@@ -11,7 +11,7 @@ namespace ECommerce.Server.Repositories.CategoryRepository
             _context = context;
         }
 
-        public async Task<List<Category>> GetCategoriesAsync()
+        public async Task<List<Category>> GetCategoriesToListAsync()
         {
             return await _context.Categories.ToListAsync();
         }

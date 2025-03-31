@@ -1,4 +1,4 @@
-﻿using ECommerce.Server.Services.UserAuthorizationService;
+﻿using ECommerce.Server.Services.ClaimsService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +11,12 @@ namespace ECommerce.Server.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly ILogger<AuthorizationController> _logger;
-        private readonly IUserAuthorizationService _userAuthorizationService;
+        private readonly IClaimsService _claimsService;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger, IUserAuthorizationService userAuthorizationService)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IClaimsService claimsService)
         {
             _logger = logger;
-            _userAuthorizationService = userAuthorizationService; 
+            _claimsService = claimsService; 
         }
 
         [HttpGet("authorize")]
@@ -25,12 +25,8 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                var user = _userAuthorizationService.GetUserIdFromClaims(User); 
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("User ID is missing in the token.");
-                }
-                return Ok(new { Message = "You have access to user-level actions and information", UserId = userId });
+                var result = _claimsService.GetUserIdFromClaims(User);
+                return result.Success ? Ok(new { Message = "You have access to user-level actions and information", UserId = result.Data }) : Unauthorized("User ID is missing in the token.");
             }
             catch (Exception ex)
             {
@@ -45,14 +41,15 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return Ok(new { Message = "You have access to admin-level actions and information", UserId = userId });
+                var result = _claimsService.GetUserIdFromClaims(User);
+                return result.Success ? Ok(new { Message = "You have access to admin-level actions and information", UserId = result.Data }) : Unauthorized("User ID is missing in the token.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Admin authorization error: {ex.Message}");
+                _logger.LogError($"User authorization error: {ex.Message}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
     }
 }
+

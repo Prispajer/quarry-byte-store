@@ -20,11 +20,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAll()
         {
             try
             {
-                return Ok(await _productService.GetProductsAsync());
+                return Ok(await _productService.GetAllAsync());
             }
             catch (Exception ex)
             {

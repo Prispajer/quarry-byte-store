@@ -1,4 +1,5 @@
-﻿using ECommerce.Shared.Models;
+﻿using ECommerce.Server.Repositories.ProductRepository;
+using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Product;
 
 namespace ECommerce.Server.Services.ProductService
@@ -6,57 +7,46 @@ namespace ECommerce.Server.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly DataContext _context;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(DataContext context)
+        public ProductService(DataContext context, IProductRepository productRepository)
         {
             _context = context;
+            _productRepository = productRepository;
         }
-
-        public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
+        public async Task<ServiceResponse<List<Product>>> GetAllAsync()
         {
-            var response = new ServiceResponse<Product>();
-
-            var product = await _context.Products
-                .Include(p => p.Variants)
-                .ThenInclude(v => v.ProductType)
-                .FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (product == null)
+            var products = await _productRepository.GetAllAsync();
+            return new ServiceResponse<List<Product>>
             {
-                response.Success = false;
-                response.Message = "Product is not available";
-            }
-            else
-            {
-                response.Data = product;
-            }
-
-            return response;
+                Data = products
+            };
         }
-
-        public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
+        public async Task<ServiceResponse<Product>> GetByIdAsync(int productId)
         {
-            var response = new ServiceResponse<List<Product>>
+            var product = await _productRepository.GetByIdAsync(productId);
+
+            var response = new ServiceResponse<Product>
             {
-                Data = await _context.Products.Include(p => p.Variants).ToListAsync()
+                Success = product != null,
+                Data = product,
+                Message = product == null ? "Product is not available" : ""
             };
 
             return response;
         }
-
         public async Task<ServiceResponse<List<Product>>> GetProductsByCategory(string categoryUrl)
         {
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
-                    .Where(p => p.Category.Url.ToLower().Equals(categoryUrl.ToLower()))
+                    .Where(p => p.Category != null && p.Category.Url.ToLower().Equals(categoryUrl.ToLower()))
                     .Include(p => p.Variants)
                     .ToListAsync()
             };
 
             return response;
         }
-
         public async Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string searchText)
         {
             var products = await FindProductsBySearchText(searchText);
@@ -90,7 +80,6 @@ namespace ECommerce.Server.Services.ProductService
 
             return new ServiceResponse<List<string>> { Data = result };
         }
-
         public async Task<ServiceResponse<List<Product>>> SearchProducts(string searchText)
         {
             var response = new ServiceResponse<List<Product>>
@@ -100,12 +89,10 @@ namespace ECommerce.Server.Services.ProductService
 
             return response;
         }
-
         private async Task<List<Product>> FindProductsBySearchText(string searchText)
         {
             return await _context.Products.Where(p => p.Title.ToLower().Contains(searchText.ToLower()) || p.Description.ToLower().Contains(searchText.ToLower())).ToListAsync();
         }
-
         public async Task<ServiceResponse<Product>> AddProductAsync(string title, string description, string imageUrl, int categoryId)
         {
             var category = await _context.Categories.Where(p => p.Id == categoryId).SingleOrDefaultAsync();
@@ -140,7 +127,6 @@ namespace ECommerce.Server.Services.ProductService
                 Message = "Product added successfully"
             };
         }
-
         public async Task<ServiceResponse<Product>> EditProductAsync(int id, string? title, string? description, string? imageUrl)
         {
             var product = await _context.Products.Where(p => p.Id == id).SingleOrDefaultAsync();
@@ -167,7 +153,6 @@ namespace ECommerce.Server.Services.ProductService
                 Message = "Product updated successfully"
             };
         }
-
         public async Task<ServiceResponse<Product>> DeleteProductAsync(int id)
         {
             var product = await _context.Products.Where(p => p.Id == id).SingleOrDefaultAsync();

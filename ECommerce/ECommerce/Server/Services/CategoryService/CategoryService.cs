@@ -7,18 +7,17 @@ namespace ECommerce.Server.Services.CategoryService
     public class CategoryService : ICategoryService
     {
         
-        private readonly DataContext _context;
         private readonly ICategoryRepository _categoryReposiory;
 
         public CategoryService(DataContext context, ICategoryRepository categoryRepository)
         {
-            _context = context;
             _categoryReposiory = categoryRepository;
         }
 
-        public async Task<ServiceResponse<List<Category>>> GetCategories()
+        public async Task<ServiceResponse<List<Category>>> GetCategoriesAsync()
         {
-            var categories = await _categoryReposiory.GetCategoriesAsync();
+            var categories = await _categoryReposiory.GetCategoriesToListAsync();
+
             return new ServiceResponse<List<Category>>
             {
                 Data = categories

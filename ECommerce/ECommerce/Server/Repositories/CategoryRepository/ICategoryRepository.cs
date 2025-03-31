@@ -4,6 +4,6 @@ namespace ECommerce.Server.Repositories.CategoryRepository
 {
     public interface ICategoryRepository
     {
-        Task<List<Category>> GetCategoriesAsync();
+        Task<List<Category>> GetCategoriesToListAsync();
     }
 }

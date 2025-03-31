@@ -15,7 +15,7 @@ namespace ECommerce.Server.Services.CartService
             _cartRepository = cartRepository;
         }
 
-        public async Task<ServiceResponse<List<CartProductResponse>>> GetCartProducts(List<GetCartProductsDto> cartItemsDto)
+        public async Task<ServiceResponse<List<CartProductResponse>>> GetCartProductsAsync(List<GetCartProductsDto> cartItemsDto)
         {
             var result = new ServiceResponse<List<CartProductResponse>>()
             {
@@ -31,6 +31,7 @@ namespace ECommerce.Server.Services.CartService
                 }
 
                 var productVariant = await _cartRepository.GetProductVariantAsync(item.ProductId, item.ProductTypeId);
+
                 if (productVariant == null)
                 {
                     continue;

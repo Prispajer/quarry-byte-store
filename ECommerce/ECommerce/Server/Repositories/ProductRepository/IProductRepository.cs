@@ -4,12 +4,12 @@ namespace ECommerce.Server.Repositories.ProductRepository
 {
     public interface IProductRepository
     {
-        Task<Product?> GetProductByIdAsync(int productId);
-        Task<List<Product>> GetProductsAsync();
-        Task<List<Product>> GetProductsByCategoryAsync(string categoryUrl);
-        Task<List<Product>> SearchProductsAsync(string searchText);
-        Task AddProductAsync(Product product);
-        Task UpdateProductAsync(Product product);
-        Task DeleteProductAsync(Product product);
+        Task<List<Product>> GetAllAsync();
+        Task<Product?> GetByIdAsync(int productId);
+        Task<List<Product>> GetByCategoryAsync(string categoryUrl);
+        Task<List<Product>> SearchAsync(string searchText);
+        Task AddAsync(Product product);
+        Task UpdateAsync(Product product);
+        Task DeleteAsync(Product product);
     }
 }

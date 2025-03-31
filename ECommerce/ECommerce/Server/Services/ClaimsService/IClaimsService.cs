@@ -1,9 +1,9 @@
 ﻿using ECommerce.Shared.Models;
 using System.Security.Claims;
 
-namespace ECommerce.Server.Services.UserAuthorizationService
+namespace ECommerce.Server.Services.ClaimsService
 {
-    public interface IUserAuthorizationService
+    public interface IClaimsService
     {
         ServiceResponse<string> GetUserIdFromClaims(ClaimsPrincipal user);
     }

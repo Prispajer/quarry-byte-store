@@ -2,9 +2,9 @@
 using System.Security.Claims;
 
 
-namespace ECommerce.Server.Services.UserAuthorizationService
+namespace ECommerce.Server.Services.ClaimsService
 {
-    public class UserAuthorizationService: IUserAuthorizationService
+    public class ClaimsService: IClaimsService
     {
         public ServiceResponse<string> GetUserIdFromClaims(ClaimsPrincipal user)
         {

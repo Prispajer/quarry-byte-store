@@ -6,6 +6,6 @@ namespace ECommerce.Server.Services.CartService
 {
     public interface ICartService
     {
-        Task<ServiceResponse<List<CartProductResponse>>> GetCartProducts(List<GetCartProductsDto> cartItemsDto);
+        Task<ServiceResponse<List<CartProductResponse>>> GetCartProductsAsync(List<GetCartProductsDto> cartItemsDto);
     }
 }

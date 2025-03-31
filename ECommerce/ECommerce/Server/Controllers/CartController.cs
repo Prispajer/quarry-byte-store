@@ -23,14 +23,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                var cartItems = cartItemsDto.Select(dto => new CartItem
-                {
-                    ProductId = dto.ProductId,
-                    ProductTypeId = dto.ProductTypeId,
-                    Quantity = dto.Quantity
-                }).ToList();
-
-                var result = await _cartService.GetCartProducts(cartItemsDto);
+                var result = await _cartService.GetCartProductsAsync(cartItemsDto);
                 return Ok(result);
             }
             catch (Exception ex)
