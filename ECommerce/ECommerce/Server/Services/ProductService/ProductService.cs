@@ -1,4 +1,5 @@
 ﻿using ECommerce.Server.Repositories.ProductRepository;
+using ECommerce.Server.Services.HelperService;
 using ECommerce.Shared.Models;
 using ECommerce.Shared.Models.Product;
 
@@ -8,90 +9,70 @@ namespace ECommerce.Server.Services.ProductService
     {
         private readonly DataContext _context;
         private readonly IProductRepository _productRepository;
+        private readonly IHelperService _helperService;
 
-        public ProductService(DataContext context, IProductRepository productRepository)
+        public ProductService(DataContext context, IProductRepository productRepository, IHelperService helperService)
         {
             _context = context;
             _productRepository = productRepository;
+            _helperService = helperService;
         }
         public async Task<ServiceResponse<List<Product>>> GetAllAsync()
         {
             var products = await _productRepository.GetAllAsync();
-            return new ServiceResponse<List<Product>>
-            {
-                Data = products
-            };
+            return _helperService.CreateResponse(products, "Products are not available!");
         }
-        public async Task<ServiceResponse<Product>> GetByIdAsync(int productId)
+        public async Task<ServiceResponse<Product?>> GetByIdAsync(int productId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
-
-            var response = new ServiceResponse<Product>
-            {
-                Success = product != null,
-                Data = product,
-                Message = product == null ? "Product is not available" : ""
-            };
-
-            return response;
+            return _helperService.CreateResponse(product, "Product are not available!");
         }
-        public async Task<ServiceResponse<List<Product>>> GetProductsByCategory(string categoryUrl)
+        public async Task<ServiceResponse<List<Product>>> GetByCategoryAsync(string categoryUrl)
         {
-            var response = new ServiceResponse<List<Product>>
-            {
-                Data = await _context.Products
-                    .Where(p => p.Category != null && p.Category.Url.ToLower().Equals(categoryUrl.ToLower()))
-                    .Include(p => p.Variants)
-                    .ToListAsync()
-            };
-
-            return response;
+            var products = await _productRepository.GetByCategoryAsync(categoryUrl);
+            return _helperService.CreateResponse(products, "Products are not available!");
         }
-        public async Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string searchText)
+        private async Task<ServiceResponse<List<Product>>> SearchAsync(string searchText)
         {
-            var products = await FindProductsBySearchText(searchText);
+            var products = await _productRepository.SearchAsync(searchText) ?? new List<Product>();
+            return _helperService.CreateResponse(products, "Products are not available!");
+        }
+        public async Task<ServiceResponse<List<string>>> GetBySearchAsync(string searchText)
+        {
+            var results = await SearchAsync(searchText);
 
             List<string> result = new List<string>();
 
-            foreach (var product in products)
+            if (results.Success && results.Data != null)
             {
-                if (product.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.Add(product.Title);
-                }
+                var products = results.Data;
 
-                if (product.Description != null)
+                foreach (var product in products)
                 {
-                    var punctuation = product.Description.Where(char.IsPunctuation)
-                        .Distinct().ToArray();
-                    var words = product.Description.Split()
-                        .Select(s => s.Trim(punctuation));
-
-                    foreach (var word in words)
+                    if (product.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (word.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                            && !result.Contains(word))
+                        result.Add(product.Title);
+                    }
+
+                    if (product.Description != null)
+                    {
+                        var punctuation = product.Description.Where(char.IsPunctuation)
+                            .Distinct().ToArray();
+                        var words = product.Description.Split()
+                            .Select(s => s.Trim(punctuation));
+
+                        foreach (var word in words)
                         {
-                            result.Add(word);
+                            if (word.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                && !result.Contains(word))
+                            {
+                                result.Add(word);
+                            }
                         }
                     }
                 }
             }
-
             return new ServiceResponse<List<string>> { Data = result };
-        }
-        public async Task<ServiceResponse<List<Product>>> SearchProducts(string searchText)
-        {
-            var response = new ServiceResponse<List<Product>>
-            {
-                Data = await FindProductsBySearchText(searchText)
-            };
-
-            return response;
-        }
-        private async Task<List<Product>> FindProductsBySearchText(string searchText)
-        {
-            return await _context.Products.Where(p => p.Title.ToLower().Contains(searchText.ToLower()) || p.Description.ToLower().Contains(searchText.ToLower())).ToListAsync();
         }
         public async Task<ServiceResponse<Product>> AddProductAsync(string title, string description, string imageUrl, int categoryId)
         {

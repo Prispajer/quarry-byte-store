@@ -20,6 +20,9 @@ using ECommerce.Server.Services.SessionService;
 using ECommerce.Server.Repositories.UserRepository;
 using ECommerce.Server.Repositories.CartRepository;
 using ECommerce.Server.Repositories.CategoryRepository;
+using ECommerce.Server.Services.ClaimsService;
+using ECommerce.Server.Repositories.ProductRepository;
+using ECommerce.Server.Services.HelperService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,8 +110,14 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 // The ITokenService interface registered with the TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
-// The ITokenService interface registered with the SessionService
+// The ISessionService interface registered with the SessionService
 builder.Services.AddScoped<ISessionService, SessionService>();
+// The IHelperService interface registered with the HelperService
+builder.Services.AddScoped<IHelperService, HelperService>();
+//The IClaimsService interface registered with the ClaimsService
+builder.Services.AddScoped<IClaimsService, ClaimsService>();
+//The IProductRepository interface registered with the ProductRepository
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // The IUserRepository interface registered with UserRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 // The ICartRepository interface registered with CartRepository

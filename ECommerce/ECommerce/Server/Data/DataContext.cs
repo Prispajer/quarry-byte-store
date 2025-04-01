@@ -1,5 +1,4 @@
-﻿using ECommerce.Client.Pages;
-using ECommerce.Shared.Models.Product;
+﻿using ECommerce.Shared.Models.Product;
 using ECommerce.Shared.Models.User;
 
 namespace ECommerce.Server.Data

@@ -34,11 +34,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<ActionResult<ServiceResponse<Product>>> GetProduct(int productId)
+        public async Task<ActionResult<ServiceResponse<Product>>> GetById(int productId)
         {
             try
             {
-                return Ok(await _productService.GetProductAsync(productId));
+                return Ok(await _productService.GetByIdAsync(productId));
 
             }
             catch (Exception ex)
@@ -49,11 +49,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet("category/{categoryUrl}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategory(string categoryUrl)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetByCategory(string categoryUrl)
         {
             try
             {
-                return Ok(await _productService.GetProductsByCategory(categoryUrl));
+                return Ok(await _productService.GetByCategoryAsync(categoryUrl));
             }
             catch (Exception ex)
             {
