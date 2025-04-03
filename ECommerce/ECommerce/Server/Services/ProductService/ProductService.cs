@@ -32,7 +32,7 @@ namespace ECommerce.Server.Services.ProductService
             var products = await _productRepository.GetByCategoryAsync(categoryUrl);
             return _helperService.CreateResponse(products, "Products are not available!");
         }
-        private async Task<ServiceResponse<List<Product>>> SearchAsync(string searchText)
+        public async Task<ServiceResponse<List<Product>>> SearchAsync(string searchText)
         {
             var products = await _productRepository.SearchAsync(searchText) ?? new List<Product>();
             return _helperService.CreateResponse(products, "Products are not available!");

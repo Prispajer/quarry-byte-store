@@ -67,7 +67,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                return Ok(await _productService.SearchProducts(searchText));
+                return Ok(await _productService.GetBySearchAsync(searchText));
 
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                return Ok(await _productService.GetProductSearchSuggestions(searchText));
+                return Ok(await _productService.GetBySearchAsync(searchText));
 
             }
             catch (Exception ex)

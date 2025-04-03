@@ -9,7 +9,7 @@ namespace ECommerce.Server.Data
         {
 
         }
-
+            
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductVariant>()
@@ -26,7 +26,7 @@ namespace ECommerce.Server.Data
                     new ProductType { Id = 8, Name = "CollectorsEdition" },
                     new ProductType { Id = 9, Name = "PDF" }
                 );
-
+                
 
             modelBuilder.Entity<Category>().HasData(
                 new Category

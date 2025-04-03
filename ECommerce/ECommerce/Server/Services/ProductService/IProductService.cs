@@ -8,6 +8,7 @@ namespace ECommerce.Server.Services.ProductService
         Task<ServiceResponse<List<Product>>> GetAllAsync();
         Task<ServiceResponse<Product?>> GetByIdAsync(int productId);
         Task<ServiceResponse<List<Product>>> GetByCategoryAsync(string categoryUrl);
+        Task<ServiceResponse<List<Product>>> SearchAsync(string searchText);
         Task<ServiceResponse<List<string>>> GetBySearchAsync(string searchText);
         Task<ServiceResponse<Product>> AddProductAsync(string title, string description, string imageUrl, int categoryId);
         Task<ServiceResponse<Product>> EditProductAsync(int id, string? title, string? description, string? imageUrl);
