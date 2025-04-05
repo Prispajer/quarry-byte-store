@@ -20,11 +20,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAll()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAllProducts()
         {
             try
             {
-                return Ok(await _productService.GetAllAsync());
+                return Ok(await _productService.GetAllProductsAsync());
             }
             catch (Exception ex)
             {
@@ -34,11 +34,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<ActionResult<ServiceResponse<Product>>> GetById(int productId)
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductById(int productId)
         {
             try
             {
-                return Ok(await _productService.GetByIdAsync(productId));
+                return Ok(await _productService.GetProductByIdAsync(productId));
 
             }
             catch (Exception ex)
@@ -49,11 +49,11 @@ namespace ECommerce.Server.Controllers
         }
 
         [HttpGet("category/{categoryUrl}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetByCategory(string categoryUrl)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductByCategory(string categoryUrl)
         {
             try
             {
-                return Ok(await _productService.GetByCategoryAsync(categoryUrl));
+                return Ok(await _productService.GetProductByCategoryAsync(categoryUrl));
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                return Ok(await _productService.GetBySearchAsync(searchText));
+                return Ok(await _productService.SearchProducts(searchText));
 
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace ECommerce.Server.Controllers
         {
             try
             {
-                return Ok(await _productService.GetBySearchAsync(searchText));
+                return Ok(await _productService.GetProductsBySearchSuggestions(searchText));
 
             }
             catch (Exception ex)

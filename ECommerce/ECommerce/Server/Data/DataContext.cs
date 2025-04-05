@@ -1,4 +1,5 @@
-﻿using ECommerce.Shared.Models.Product;
+﻿using ECommerce.Client.Pages;
+using ECommerce.Shared.Models.Product;
 using ECommerce.Shared.Models.User;
 
 namespace ECommerce.Server.Data
@@ -9,7 +10,7 @@ namespace ECommerce.Server.Data
         {
 
         }
-            
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductVariant>()
@@ -26,7 +27,7 @@ namespace ECommerce.Server.Data
                     new ProductType { Id = 8, Name = "CollectorsEdition" },
                     new ProductType { Id = 9, Name = "PDF" }
                 );
-                
+
 
             modelBuilder.Entity<Category>().HasData(
                 new Category
@@ -63,6 +64,7 @@ namespace ECommerce.Server.Data
                             Title = "The Lord of the Rings",
                             Description = "The Lord of the Rings is an epic high fantasy novel by the English author and scholar J. R. R. Tolkien. Set in Middle-earth, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949, The Lord of the Rings is one of the best-selling books ever written, with over 150 million copies sold.",
                             ImageUrl = "https://upload.wikimedia.org/wikipedia/en/e/e9/First_Single_Volume_Edition_of_The_Lord_of_the_Rings.gif",
+
                             CategoryId = 1,
                         },
                         new Product
